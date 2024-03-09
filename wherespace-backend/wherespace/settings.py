@@ -70,9 +70,16 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = "wherespace.wsgi.application"
-ASGI_APPLICATION = 'wherespace.asgi.application'
+ASGI_APPLICATION = "wherespace.asgi.application"
 
-AUTH_USER_MODEL = 'backend.User'
+AUTH_USER_MODEL = "backend.User"
+
+# Restful
+REST_FRAMEWORK = {
+    "DEFAULT_AUTHENTICATION_CLASSES": [
+        "rest_framework.authentication.SessionAuthentication"
+    ],
+}
 
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
