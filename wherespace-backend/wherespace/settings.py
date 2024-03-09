@@ -74,6 +74,9 @@ ASGI_APPLICATION = "wherespace.asgi.application"
 
 AUTH_USER_MODEL = "backend.User"
 
+# SESSION_COOKIE_SECURE = True
+# CSRF_COOKIE_HTTPONLY = True
+
 # Restful
 REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": [
