@@ -25,3 +25,6 @@ class EventSerializer(serializers.ModelSerializer):
             "attendees",
             "host",
         ]
+
+    def is_participant(self, user):
+        return self.attendees.filter(id=user.id).exists() or self.host == user
