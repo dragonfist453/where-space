@@ -2,18 +2,19 @@ from django.apps import apps
 from rest_framework import serializers
 
 User = apps.get_model("backend", "User")
+UserPrivacy = apps.get_model("backend", "UserPrivacy")
 
 
 class UserPrivacySerializer(serializers.ModelSerializer):
     class Meta:
-        model = "backend.User"
-        fields = ["id", "privacy"]
+        model = UserPrivacy
+        fields = ["id", "is_looking_for_peers"]
         read_only_fields = ["id"]
 
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
-        model = "backend.User"
+        model = User
         fields = ["id", "privacy", "email", "username"]
         read_only_fields = ["id"]
 
