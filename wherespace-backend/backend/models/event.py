@@ -1,6 +1,6 @@
 from django.db import models
 
-from backend.models.space import Space
+from .space import Space
 
 
 class Event(models.Model):
