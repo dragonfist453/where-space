@@ -1,0 +1,19 @@
+[tool.poetry]
+name = "where-space-backend"
+version = "0.1.0"
+description = ""
+authors = ["Heyuan Zeng <hi@universe.observer>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.12"
+Django = "^5.0.3"
+channels = {extras = ["daphne"], version = "^4.0.0"}
+psycopg = {extras = ["binary"], version = "^3.1.18"}
+
+[tool.poetry.group.dev.dependencies]
+ruff = "^0.3.2"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
