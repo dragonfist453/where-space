@@ -1,23 +1,69 @@
 'use client'
 
-import {APIProvider, Map} from '@vis.gl/react-google-maps';
+import { useState, useEffect } from 'react';
+import {APIProvider, Map, Marker} from '@vis.gl/react-google-maps';
 
 export default function Home() {
   let apiKey = process.env.NEXT_PUBLIC_GMAPS_API_KEY || ""
-  console.log(apiKey)
+  var [mapCentre, setMapCentre] = useState({lat: 22.54992, lng: 0})
+
+  useEffect(() => {
+    handleSendData();
+  }, []);
+
+
+  const handleSendData = async () => {
+    
+    navigator.geolocation.getCurrentPosition((position) => {
+      try {
+        // const response = await postData(url, data);
+        console.log('Response:', position);
+        // Handle the response data as needed
+        const latitude = position.coords.latitude;
+        const longitude = position.coords.longitude;
+        console.log(latitude,longitude)
+        setMapCentre({lng: longitude, lat: latitude })
+        
+      } catch (error) {
+        console.error('Error:', error);
+      }
+    })
+  };
+
   return (
     <div>
-      <APIProvider apiKey={apiKey}>
-        <Map
-          defaultCenter={{lat: 22.54992, lng: 0}}
-          defaultZoom={3}
-          gestureHandling={'greedy'}
-          disableDefaultUI={true}
-        />
-      </APIProvider>
+    <APIProvider apiKey={apiKey}>
+      <div style={{height:"100vh", width:"100vw"}}>
+      <Map center={mapCentre} defaultZoom={17} gestureHandling={'greedy'} disableDefaultUI={true}>
+        <Marker position={mapCentre}/>
+      </Map>
+      </div>
+
+    </APIProvider>
     </div>
   )
 }
+
+async function postData(url: string, data: {}) {
+  // Use the Fetch API to make the POST request
+  const response = await fetch(url, {
+    method: 'POST', // Specify the request method
+    headers: {
+      'Content-Type': 'application/json', // Specify the content type
+    },
+    body: JSON.stringify(data), // Convert the data to a JSON string
+  });
+
+  if (!response.ok) {
+    // Check if the request was successful
+    const message = `An error has occurred: ${response.status}`;
+    throw new Error(message);
+  }
+
+  const responseData = await response.json(); // Parse the JSON response
+  return responseData; // Return the response data
+}
+
 
 // let map: google.maps.Map, infoWindow: google.maps.InfoWindow;
 
