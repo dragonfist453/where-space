@@ -2,6 +2,8 @@
 
 import { useState, useEffect } from 'react';
 import {APIProvider, Map, Marker} from '@vis.gl/react-google-maps';
+import ResponsiveAppBar from '@/component/appBar';
+
 
 export default function Home() {
   let apiKey = process.env.NEXT_PUBLIC_GMAPS_API_KEY || ""
@@ -32,14 +34,15 @@ export default function Home() {
 
   return (
     <div>
-    <APIProvider apiKey={apiKey}>
-      <div style={{height:"100vh", width:"100vw"}}>
-      <Map center={mapCentre} defaultZoom={17} gestureHandling={'greedy'} disableDefaultUI={true}>
-        <Marker position={mapCentre}/>
-      </Map>
-      </div>
+      <ResponsiveAppBar />
+      <APIProvider apiKey={apiKey}>
+        <div style={{height:"100vh", width:"100vw"}}>
+        <Map center={mapCentre} defaultZoom={17} gestureHandling={'greedy'} disableDefaultUI={true}>
+          <Marker position={mapCentre}/>
+        </Map>
+        </div>
 
-    </APIProvider>
+      </APIProvider>
     </div>
   )
 }
