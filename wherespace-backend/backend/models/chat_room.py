@@ -13,7 +13,7 @@ class _Message(UUIDMixin, models.Model):
 
 
 class EventMessage(_Message):
-    event = models.ForeignKey(
+    room = models.ForeignKey(
         "EventRoom",
         on_delete=models.CASCADE,
         related_name="event_messages",
