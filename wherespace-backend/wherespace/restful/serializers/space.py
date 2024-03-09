@@ -6,6 +6,7 @@ from .user import UserSerializer
 Rating = apps.get_model("backend", "Rating")
 Space = apps.get_model("backend", "Space")
 Booking = apps.get_model("backend", "Booking")
+User = apps.get_model("backend", "User")
 
 
 class RatingSerializer(serializers.ModelSerializer):
@@ -18,7 +19,7 @@ class RatingSerializer(serializers.ModelSerializer):
 
 
 class SpaceSerializer(serializers.ModelSerializer):
-    ratings = RatingSerializer(many=True)
+    ratings = RatingSerializer(many=True, required=False)
 
     class Meta:
         model = Space
@@ -27,8 +28,14 @@ class SpaceSerializer(serializers.ModelSerializer):
 
 
 class BookingSerializer(serializers.ModelSerializer):
-    space = SpaceSerializer()
-    host = UserSerializer()
+    space = serializers.PrimaryKeyRelatedField(queryset=Space.objects.all())
+    host = serializers.PrimaryKeyRelatedField(queryset=User.objects.all())
+
+    def __init__(self, *args, **kwargs):
+        super(BookingSerializer, self).__init__(*args, **kwargs)
+        # Adjust 'required' based on some condition, for example:
+        if "request" in self.context and self.context["request"].method == "POST":
+            self.fields["host"].required = False
 
     class Meta:
         model = Booking
