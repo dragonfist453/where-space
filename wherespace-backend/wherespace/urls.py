@@ -18,10 +18,11 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import include, path
 
-from .restful.router import generate_restful_router
+from .restful.router import generate_restful_router, generate_schema
 
 urlpatterns = [
     path("", include(generate_restful_router().urls)),
     path("admin/", admin.site.urls),
     path("api-auth/", include("rest_framework.urls")),
+    path("schema/", generate_schema()),
 ]
