@@ -18,6 +18,7 @@ class SpaceSerializer(serializers.ModelSerializer):
             "rate",
             "latitude",
             "longitude",
+            "type",
         ]
         read_only_fields = ["id"]
 

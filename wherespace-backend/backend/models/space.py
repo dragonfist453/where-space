@@ -4,6 +4,12 @@ from .mixins import UUIDMixin
 from .user import User
 
 
+class SpaceType(models.TextChoices):
+    QUITE = "QUITE", "Quite"
+    BUSY = "BUSY", "Busy"
+    MEETING = "MEETING", "Meeting"
+
+
 class Space(UUIDMixin, models.Model):
     MAX_RATING = 10
 
@@ -14,6 +20,7 @@ class Space(UUIDMixin, models.Model):
     rate = models.FloatField()
     latitude = models.FloatField()
     longitude = models.FloatField()
+    type = models.CharField(max_length=20, choices=SpaceType.choices)
 
 
 class Booking(UUIDMixin, models.Model):

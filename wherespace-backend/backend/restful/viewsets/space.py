@@ -17,7 +17,7 @@ class SpaceFilter(django_filters.FilterSet):
 
     class Meta:
         model = Space
-        fields = ["bounding_box"]
+        fields = ["bounding_box", "type"]
 
     def filter_bounding_box(self, queryset, name, value: str):
         east, north, south, west = map(float, value.split(","))
