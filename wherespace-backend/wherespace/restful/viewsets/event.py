@@ -14,7 +14,7 @@ class EventViewSet(viewsets.ModelViewSet):
     serializer_class = EventSerializer
 
     @action(detail=False, methods=["get"])
-    def all(self):
+    def all(self, _):
         events = Event.objects.all()
         serializer = EventSerializer(events, many=True)
         return Response(serializer.data)
@@ -25,7 +25,7 @@ class EventViewSet(viewsets.ModelViewSet):
         permission_classes=[permissions.IsAuthenticated],
     )
     def hosting(self, request):
-        events = Event.objects.filter(booking__host=request.user)
+        events = Event.objects.filter(host=request.user)
         serializer = EventSerializer(events, many=True)
         return Response(serializer.data)
 
@@ -35,7 +35,7 @@ class EventViewSet(viewsets.ModelViewSet):
         permission_classes=[permissions.IsAuthenticated],
     )
     def attending(self, request):
-        events = Event.objects.filter(booking__attendees=request.user)
+        events = Event.objects.filter(attendees=request.user)
         serializer = EventSerializer(events, many=True)
         return Response(serializer.data)
 
