@@ -5,12 +5,13 @@ from .space import BookingSerializer
 from .user import UserSerializer
 
 Event = apps.get_model("backend", "Event")
+User = apps.get_model("backend", "User")
 
 
 class EventSerializer(serializers.ModelSerializer):
-    booking = BookingSerializer()
-    attendees = UserSerializer(many=True)
-    host = UserSerializer()
+    booking = BookingSerializer(required=False, allow_null=True)
+    attendees = UserSerializer(many=True, required=False, allow_null=True)
+    host = serializers.PrimaryKeyRelatedField(queryset=User.objects.all())
 
     class Meta:
         model = Event
