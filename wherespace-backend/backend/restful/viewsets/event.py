@@ -58,8 +58,8 @@ class EventViewSet(viewsets.ModelViewSet):
         methods=["post"],
         permission_classes=[permissions.IsAuthenticated],
     )
-    def attend(self, request, event_uuid):
-        event = get_object_or_404(Event, id=event_uuid)
+    def attend(self, request, pk):
+        event = get_object_or_404(Event, pk=pk)
         user = request.user
 
         if event.is_fully_booked:
@@ -85,8 +85,8 @@ class EventViewSet(viewsets.ModelViewSet):
         methods=["post"],
         permission_classes=[permissions.IsAuthenticated],
     )
-    def unattend(self, request, event_uuid):
-        event = get_object_or_404(Event, id=event_uuid)
+    def unattend(self, request, pk):
+        event = get_object_or_404(Event, id=pk)
         user = request.user
 
         if not event.attendees.filter(id=user.id).exists():
