@@ -9,7 +9,7 @@ Booking = apps.get_model("backend", "Booking")
 
 
 class RatingSerializer(serializers.ModelSerializer):
-    user = UserSerializer(read_only=True)
+    user = UserSerializer()
 
     class Meta:
         model = Rating
@@ -18,9 +18,7 @@ class RatingSerializer(serializers.ModelSerializer):
 
 
 class SpaceSerializer(serializers.ModelSerializer):
-    ratings = RatingSerializer(
-        many=True, read_only=True
-    )  # TODO: should it be read only?
+    ratings = RatingSerializer(many=True)
 
     class Meta:
         model = Space
@@ -30,10 +28,9 @@ class SpaceSerializer(serializers.ModelSerializer):
 
 class BookingSerializer(serializers.ModelSerializer):
     space = SpaceSerializer()
-    attendees = UserSerializer(many=True)
-    host = UserSerializer(read_only=True)
+    host = UserSerializer()
 
     class Meta:
         model = Booking
-        fields = ["id", "space", "start_time", "end_time", "host", "attendees"]
+        fields = ["id", "space", "start_time", "end_time", "host"]
         read_only_fields = ["id"]

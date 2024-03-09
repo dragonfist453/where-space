@@ -43,6 +43,3 @@ class Booking(UUIDMixin, models.Model):
     host = models.OneToOneField(
         User, on_delete=models.CASCADE, related_name="host", related_query_name="host"
     )
-    attendees = models.ManyToManyField(
-        User, related_name="attends", related_query_name="attend"
-    )
