@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "django_filters",
     "rest_framework",
+    "backend",
 ]
 
 MIDDLEWARE = [
@@ -70,6 +71,8 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "wherespace.wsgi.application"
 ASGI_APPLICATION = 'wherespace.asgi.application'
+
+AUTH_USER_MODEL = 'backend.User'
 
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
