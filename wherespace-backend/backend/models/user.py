@@ -15,5 +15,8 @@ class UserPrivacy(UUIDMixin, models.Model):
 class User(UUIDMixin, AbstractUser):
     # TODO: privacy default
     privacy = models.OneToOneField(
-        UserPrivacy, on_delete=models.CASCADE, related_name="user"
+        UserPrivacy,
+        on_delete=models.CASCADE,
+        related_name="user",
+        default=UserPrivacy.default_privacy,
     )
