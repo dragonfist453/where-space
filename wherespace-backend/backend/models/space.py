@@ -25,7 +25,7 @@ class Space(UUIDMixin, models.Model):
 
     name = models.CharField(max_length=1024)
     google_map_url = models.URLField()
-    image_url = models.ImageField()
+    image_url = models.URLField()
     description = models.TextField()
 
 
