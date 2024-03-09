@@ -12,7 +12,7 @@ Event = apps.get_model("backend", "Event")
 class EventViewSet(viewsets.ModelViewSet):
     queryset = Event.objects.all()
     serializer_class = EventSerializer
-    permission_classes = [permissions.IsAuthenticated]
+    # permission_classes = [permissions.IsAuthenticated]
 
     @action(
         detail=False,
