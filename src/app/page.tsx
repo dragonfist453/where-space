@@ -1,22 +1,22 @@
-'use client'
+"use client";
 
-import {APIProvider, Map} from '@vis.gl/react-google-maps';
+import { APIProvider, Map } from "@vis.gl/react-google-maps";
 
 export default function Home() {
-  let apiKey = process.env.NEXT_PUBLIC_GMAPS_API_KEY || ""
-  console.log(apiKey)
+  let apiKey = process.env.NEXT_PUBLIC_GMAPS_API_KEY || "";
+  console.log(apiKey);
   return (
     <div>
       <APIProvider apiKey={apiKey}>
         <Map
-          defaultCenter={{lat: 22.54992, lng: 0}}
+          defaultCenter={{ lat: 22.54992, lng: 0 }}
           defaultZoom={3}
-          gestureHandling={'greedy'}
+          gestureHandling={"greedy"}
           disableDefaultUI={true}
         />
       </APIProvider>
     </div>
-  )
+  );
 }
 
 // let map: google.maps.Map, infoWindow: google.maps.InfoWindow;
@@ -81,8 +81,6 @@ export default function Home() {
 //   }
 // }
 // window.initMap = initMap;
-
-
 
 // export default function Home() {
 //   return (
