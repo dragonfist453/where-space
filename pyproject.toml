@@ -17,6 +17,7 @@ django-filter = "^24.1"
 [tool.poetry.group.dev.dependencies]
 ruff = "^0.3.2"
 markdown = "^3.5.2"
+black = "^24.2.0"
 
 [tool.ruff]
 target-version = "py312"
