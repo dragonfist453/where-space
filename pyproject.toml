@@ -4,15 +4,36 @@ version = "0.1.0"
 description = ""
 authors = ["Heyuan Zeng <hi@universe.observer>"]
 readme = "README.md"
+package-mode = false
 
 [tool.poetry.dependencies]
 python = "^3.12"
 Django = "^5.0.3"
 channels = {extras = ["daphne"], version = "^4.0.0"}
 psycopg = {extras = ["binary"], version = "^3.1.18"}
+djangorestframework = "^3.14.0"
+django-filter = "^24.1"
 
 [tool.poetry.group.dev.dependencies]
 ruff = "^0.3.2"
+markdown = "^3.5.2"
+
+[tool.ruff]
+target-version = "py312"
+
+[tool.ruff.lint]
+select = ["ASYNC", "I", "ICN"]
+ignore = []
+
+[tool.ruff.format]
+# Like Black, use double quotes for strings.
+quote-style = "double"
+# Like Black, indent with spaces, rather than tabs.
+indent-style = "space"
+# Like Black, respect magic trailing commas.
+skip-magic-trailing-comma = false
+# Like Black, automatically detect the appropriate line ending.
+line-ending = "auto"
 
 [build-system]
 requires = ["poetry-core"]
