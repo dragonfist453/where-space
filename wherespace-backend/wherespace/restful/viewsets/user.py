@@ -70,3 +70,15 @@ class UserViewSet(viewsets.ModelViewSet):
 
         logout(request)
         return Response({"detail": "Logged out."}, status=status.HTTP_200_OK)
+
+    @action(
+        detail=False,
+        methods=["get"],
+        permission_classes=[permissions.IsAuthenticated],
+    )
+    def me(self, request):
+        """
+        Get the details of the authenticated user.
+        """
+        serializer = UserSerializer(request.user)
+        return Response(serializer.data)
