@@ -1,3 +1,4 @@
+import django_filters
 from django.apps import apps
 from django.shortcuts import get_object_or_404
 from rest_framework import status
@@ -11,9 +12,28 @@ Space = apps.get_model("backend", "Space")
 Booking = apps.get_model("backend", "Booking")
 
 
+class SpaceFilter(django_filters.FilterSet):
+    bounding_box = django_filters.CharFilter(method="filter_bounding_box")
+
+    class Meta:
+        model = Space
+        fields = ["bounding_box"]
+
+    def filter_bounding_box(self, queryset, name, value: str):
+        east, north, south, west = map(float, value.split(","))
+
+        return queryset.filter(
+            longitude__gt=west,
+            longitude__lt=east,
+            latitude__gt=south,
+            latitude__lt=north,
+        )
+
+
 class SpaceViewSet(viewsets.ModelViewSet):
     queryset = Space.objects.all()
     serializer_class = SpaceSerializer
+    filterset_class = SpaceFilter
     # permission_classes = [permissions.IsAdminUser]
 
     @action(

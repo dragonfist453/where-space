@@ -9,7 +9,16 @@ User = apps.get_model("backend", "User")
 class SpaceSerializer(serializers.ModelSerializer):
     class Meta:
         model = Space
-        fields = ["id", "name", "google_map_url", "image_url", "description", "ratings"]
+        fields = [
+            "id",
+            "name",
+            "google_map_url",
+            "image_url",
+            "description",
+            "rate",
+            "latitude",
+            "longitude",
+        ]
         read_only_fields = ["id"]
 
 
