@@ -5,13 +5,11 @@ from .user import User
 
 
 class Space(UUIDMixin, models.Model):
-    id = models.UUIDField(primary_key=True)
     name = models.CharField(max_length=1024)
     google_map_url = models.URLField()
 
 
 class Booking(UUIDMixin, models.Model):
-    id = models.UUIDField(primary_key=True)
     space = models.ForeignKey(
         Space,
         on_delete=models.CASCADE,
