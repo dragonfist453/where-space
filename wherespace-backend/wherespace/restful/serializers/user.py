@@ -13,6 +13,8 @@ class UserPrivacySerializer(serializers.ModelSerializer):
 
 
 class UserSerializer(serializers.ModelSerializer):
+    privacy = UserPrivacySerializer()
+
     class Meta:
         model = User
         fields = ["id", "privacy", "email", "username"]
