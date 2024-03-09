@@ -2,7 +2,8 @@
 
 import { useState, useEffect } from 'react';
 import {APIProvider, Map, Marker} from '@vis.gl/react-google-maps';
-import ResponsiveAppBar from '@/component/appBar';
+import ResponsiveAppBar from '@/component/AppBar';
+import SearchBar from '@/component/SearchBar'
 
 
 export default function Home() {
@@ -35,6 +36,7 @@ export default function Home() {
   return (
     <div>
       <ResponsiveAppBar />
+      <SearchBar/>
       <APIProvider apiKey={apiKey}>
         <div style={{height:"100vh", width:"100vw"}}>
         <Map center={mapCentre} defaultZoom={17} gestureHandling={'greedy'} disableDefaultUI={true}>
