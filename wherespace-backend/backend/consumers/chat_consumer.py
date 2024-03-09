@@ -4,9 +4,14 @@ from typing import Tuple
 # from ..serializers import EventMessageSerializer  # Assuming you have this serializer
 from channels.db import database_sync_to_async
 from channels.generic.websocket import AsyncWebsocketConsumer
+from rest_framework import serializers
 
 from ..models import EventRoom, EventMessage, Event
 from ..restful.serializers.chat_room import EventMessageSerializer
+
+
+class HistoryMessageSerializer(serializers.Serializer):
+    messages = EventMessageSerializer(many=True)
 
 
 class ChatConsumer(AsyncWebsocketConsumer):
@@ -25,7 +30,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
             await self.accept()
 
             # Send message history to user upon connection
-            await self.send(text_data=EventMessageSerializer(room.event_messages).data)
+            await self.send(text_data=await self.serializes_messages(room))
         else:
             # Reject the connection
             await self.close()
@@ -52,7 +57,17 @@ class ChatConsumer(AsyncWebsocketConsumer):
         message = event["message"]
 
         # Send message to WebSocket
-        await self.send(text_data=EventMessageSerializer(message).data)
+        await self.send(text_data=await self.serializes_message(message))
+
+    @database_sync_to_async
+    def serializes_messages(self, room) -> str:
+        return json.dumps(
+            HistoryMessageSerializer({"messages": room.event_messages.all()}).data
+        )
+
+    @database_sync_to_async
+    def serializes_message(self, message) -> str:
+        return json.dumps(EventMessageSerializer(message).data)
 
     @database_sync_to_async
     def save_message(self, message):
