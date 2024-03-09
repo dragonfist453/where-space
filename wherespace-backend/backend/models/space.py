@@ -5,8 +5,13 @@ from .user import User
 
 
 class Space(UUIDMixin, models.Model):
+    MAX_RATING = 10
+
     name = models.CharField(max_length=1024)
     google_map_url = models.URLField()
+    image_url = models.ImageField()
+    description = models.TextField()
+    rating = models.FloatField()
 
 
 class Booking(UUIDMixin, models.Model):
