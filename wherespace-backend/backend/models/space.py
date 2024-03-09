@@ -4,22 +4,6 @@ from .mixins import UUIDMixin
 from .user import User
 
 
-class Rating(models.Model):
-    user = models.ForeignKey(
-        User,
-        on_delete=models.CASCADE,
-        related_name="ratings",
-        related_query_name="rating",
-    )
-    rating = models.FloatField()
-    space = models.ForeignKey(
-        "Space",
-        on_delete=models.CASCADE,
-        related_name="ratings",
-        related_query_name="rating",
-    )
-
-
 class Space(UUIDMixin, models.Model):
     MAX_RATING = 10
 
@@ -27,6 +11,9 @@ class Space(UUIDMixin, models.Model):
     google_map_url = models.URLField()
     image_url = models.URLField()
     description = models.TextField()
+    rate = models.FloatField()
+    latitude = models.FloatField()
+    longitude = models.FloatField()
 
 
 class Booking(UUIDMixin, models.Model):

@@ -5,11 +5,10 @@ from rest_framework import viewsets, permissions
 from rest_framework.decorators import action
 from rest_framework.response import Response
 
-from ..serializers.space import SpaceSerializer, BookingSerializer, RatingSerializer
+from ..serializers.space import SpaceSerializer, BookingSerializer
 
 Space = apps.get_model("backend", "Space")
 Booking = apps.get_model("backend", "Booking")
-Rating = apps.get_model("backend", "Rating")
 
 
 class SpaceViewSet(viewsets.ModelViewSet):
@@ -31,16 +30,6 @@ class SpaceViewSet(viewsets.ModelViewSet):
         return Response(
             serializer.data, status=status.HTTP_201_CREATED, headers=headers
         )
-
-
-class RatingViewSet(viewsets.ModelViewSet):
-    queryset = Rating.objects.all()
-    serializer_class = RatingSerializer
-    permission_classes = [permissions.IsAuthenticated]
-
-    def perform_create(self, serializer):
-        # Assuming the 'host' is the authenticated user making the request
-        serializer.save(host=self.request.user)
 
 
 class BookingViewSet(viewsets.ModelViewSet):
