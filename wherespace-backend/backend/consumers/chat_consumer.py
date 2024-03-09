@@ -1,25 +1,24 @@
 import json
+from typing import Tuple
 
 # from ..serializers import EventMessageSerializer  # Assuming you have this serializer
 from channels.db import database_sync_to_async
 from channels.generic.websocket import AsyncWebsocketConsumer
-from django.shortcuts import get_object_or_404
 
-from ..models import EventRoom, EventMessage
+from ..models import EventRoom, EventMessage, Event
 from ..restful.serializers.chat_room import EventMessageSerializer
 
 
 class ChatConsumer(AsyncWebsocketConsumer):
     async def connect(self):
-        self.event_room_id = self.scope["url_route"]["kwargs"]["event_room_id"]
-        self.room_group_name = "chat_%s" % self.event_room_id
+        self.event_id = self.scope["url_route"]["kwargs"]["event_id"]
+        self.room_group_name = "chat_%s" % self.event_id
 
-        room = get_object_or_404(EventRoom, pk=self.event_room_id)
-        event = room.event
+        room, event = await self.get_room_and_event()
         user = self.scope["user"]
 
         # Check if user is authenticated
-        if user.is_authenticated and event.is_participant(user):
+        if user.is_authenticated and await event.async_is_participant(user):
             # Join room group
             await self.channel_layer.group_add(self.room_group_name, self.channel_name)
 
@@ -57,8 +56,19 @@ class ChatConsumer(AsyncWebsocketConsumer):
 
     @database_sync_to_async
     def save_message(self, message):
-        event_room = EventRoom.objects.get(pk=self.event_room_id)
+        event_room = EventRoom.objects.get(pk=self.event_id)
         # Assume 'request.user' is the sender. Adjust according to your authentication setup.
         EventMessage.objects.create(
             event=event_room, sender=self.scope["user"], text=message
         )
+
+    @database_sync_to_async
+    def get_room_and_event(self) -> Tuple[EventRoom, Event]:
+        try:
+            room = EventRoom.objects.get(event__pk=self.event_id)
+        except EventRoom.DoesNotExist:
+            event = Event.objects.get(pk=self.event_id)
+            room = EventRoom(event=event)
+            room.save()
+
+        return room, room.event

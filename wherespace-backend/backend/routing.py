@@ -4,7 +4,7 @@ from . import consumers
 from .restful.router import generate_restful_router, generate_schema
 
 websocket_urlpatterns = [
-    path("ws/chat/<uuid:event_id>/", consumers.ChatConsumer.as_asgi()),
+    path("ws/event_room/<uuid:event_id>/", consumers.ChatConsumer.as_asgi()),
 ]
 
 urlpatterns = [

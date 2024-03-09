@@ -1,3 +1,4 @@
+from channels.db import database_sync_to_async
 from django.db import models
 
 from .mixins import UUIDMixin
@@ -32,3 +33,10 @@ class Event(UUIDMixin, models.Model):
         return (
             self.attendees.count() >= self.max_attendees - 1
         )  # has to take account of the host
+
+    def is_participant(self, user):
+        return self.attendees.filter(id=user.id).exists() or self.host == user
+
+    @database_sync_to_async
+    def async_is_participant(self, user):
+        return self.is_participant(user)
