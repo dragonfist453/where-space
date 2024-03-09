@@ -14,12 +14,7 @@ Booking = apps.get_model("backend", "Booking")
 class SpaceViewSet(viewsets.ModelViewSet):
     queryset = Space.objects.all()
     serializer_class = SpaceSerializer
-
-    @action(detail=False, methods=["get"])
-    def all(self, _):
-        spaces = Space.objects.all()
-        serializer = SpaceSerializer(spaces, many=True)
-        return Response(serializer.data)
+    permission_classes = [permissions.IsAdminUser]
 
     @action(
         detail=False,
@@ -46,6 +41,7 @@ class SpaceViewSet(viewsets.ModelViewSet):
 class BookingViewSet(viewsets.ModelViewSet):
     queryset = Booking.objects.all()
     serializer_class = BookingSerializer
+    permission_classes = [permissions.IsAuthenticated]
 
     def perform_create(self, serializer):
         # Assuming the 'host' is the authenticated user making the request

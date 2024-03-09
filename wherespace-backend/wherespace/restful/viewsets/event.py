@@ -12,12 +12,7 @@ Event = apps.get_model("backend", "Event")
 class EventViewSet(viewsets.ModelViewSet):
     queryset = Event.objects.all()
     serializer_class = EventSerializer
-
-    @action(detail=False, methods=["get"])
-    def all(self, _):
-        events = Event.objects.all()
-        serializer = EventSerializer(events, many=True)
-        return Response(serializer.data)
+    permission_classes = [permissions.IsAuthenticated]
 
     @action(
         detail=False,
@@ -38,20 +33,6 @@ class EventViewSet(viewsets.ModelViewSet):
         events = Event.objects.filter(attendees=request.user)
         serializer = EventSerializer(events, many=True)
         return Response(serializer.data)
-
-    @action(
-        detail=False,
-        methods=["post"],
-        permission_classes=[permissions.IsAuthenticated],
-    )
-    def make(self, request):
-        serializer = self.get_serializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        self.perform_create(serializer)
-        headers = self.get_success_headers(serializer.data)
-        return Response(
-            serializer.data, status=status.HTTP_201_CREATED, headers=headers
-        )
 
     @action(
         detail=True,
