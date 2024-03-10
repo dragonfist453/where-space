@@ -1,13 +1,20 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { APIProvider, AdvancedMarker, Map } from "@vis.gl/react-google-maps";
+import {
+  APIProvider,
+  AdvancedMarker,
+  Map,
+  Pin,
+} from "@vis.gl/react-google-maps";
 import ResponsiveAppBar from "@/components/AppBar";
 import SearchBar from "@/components/SearchBar";
 import { Space, SpaceType } from "./model";
 import axios from "@/app/utils/axios-instance";
 import { exampleLocations } from "@/example-data/exampleLocations";
 import { AxiosResponse } from "axios";
+import { Badge, Chip } from "@mui/material";
+import { PinDrop, Place } from "@mui/icons-material";
 
 export default function Home() {
   const [locations, setLocations] = useState<Space[]>([]);
@@ -48,6 +55,7 @@ export default function Home() {
               type: location.type as SpaceType,
               latitude: location.latitude,
               longitude: location.longitude,
+              usersCurrent: Number(Math.random() * 2 + 5).toFixed(0),
             };
           }
         );
@@ -99,13 +107,19 @@ export default function Home() {
             }}
           >
             {locations.map((location, index) => (
-              <AdvancedMarker
-                key={index}
-                position={{
-                  lat: location.latitude,
-                  lng: location.longitude,
-                }}
-              />
+              <>
+                <AdvancedMarker
+                  key={index}
+                  position={{
+                    lat: location.latitude,
+                    lng: location.longitude,
+                  }}
+                >
+                  <Badge badgeContent={location.usersCurrent} color="success">
+                    <Place color="error" style={{ scale: 2 }} />
+                  </Badge>
+                </AdvancedMarker>
+              </>
             ))}
           </Map>
         </div>

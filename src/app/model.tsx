@@ -23,13 +23,13 @@ type Todo = {
   id: string;
   content: string;
   completed: boolean;
-}
+};
 
 type Objective = {
   id: string;
   todos: Todo[];
   goal_text: string;
-}
+};
 
 type User = {
   id: string;
@@ -63,6 +63,7 @@ type Space = {
   type: SpaceType;
   latitude: number;
   longitude: number;
+  usersCurrent: number;
 };
 
 export enum SpaceType {
@@ -71,4 +72,13 @@ export enum SpaceType {
   Meeting = "Meeting",
 }
 
-export type { Event, Booking, Space, User, ChatMessage, UserLogin, Objective, Todo };
+export type {
+  Event,
+  Booking,
+  Space,
+  User,
+  ChatMessage,
+  UserLogin,
+  Objective,
+  Todo,
+};
