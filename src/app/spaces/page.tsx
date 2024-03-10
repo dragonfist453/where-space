@@ -41,6 +41,7 @@ export default function Spaces() {
             id: string;
           }) => {
             return {
+              id: location.id,
               name: location.name,
               description: location.description,
               imageUrl: location.image_url,

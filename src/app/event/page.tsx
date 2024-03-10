@@ -74,11 +74,17 @@ function ChatSection() {
     id: "",
     email: "me@gmail.com",
     username: "Me",
+    firstName: "",
+    lastName: "",
+    interests: [],
   };
   const mockUser: User = {
     id: "",
     email: "exmaple@gmail.com",
     username: "Example User",
+    firstName: "",
+    lastName: "",
+    interests: [],
   };
   const mockMessage: ChatMessage = {
     from: mockUser,

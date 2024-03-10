@@ -22,6 +22,10 @@ type User = {
   id: string;
   email: string;
   username: string;
+  firstName: string;
+  lastName: string;
+  interests: [];
+  openEvents?: boolean;
 };
 
 type Booking = {
@@ -32,6 +36,7 @@ type Booking = {
 };
 
 type Space = {
+  id: string;
   name: string;
   description: string;
   imageUrl: string;
