@@ -34,6 +34,6 @@ class Booking(UUIDMixin, models.Model):
     )
     start_time = models.DateTimeField()
     end_time = models.DateTimeField()
-    host = models.OneToOneField(
+    host = models.ForeignKey(
         User, on_delete=models.CASCADE, related_name="host", related_query_name="host"
     )
