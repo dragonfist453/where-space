@@ -29,22 +29,12 @@ export default function ListEvents() {
 
   useEffect(() => {
     axios
-      .get("http://10.242.109.78:8000/events", {
-        headers: {
-          "Access-Control-Allow-Origin": "*",
-          "Access-Control-Allow-Methods": "GET",
-        },
-      })
+      .get("http://10.242.109.78:8000/events")
       .then(function (response) {
         const resEventList: CreatedEvent[] = [];
         response.data.map((event: any) => {
           const attendees: User[] = [];
           event.attendees.map((attendee: any) => {
-            attendees.push({
-              id: attendee.id,
-              username: attendee.username,
-              email: attendee.user,
-            });
             attendees.push({
               id: attendee.id,
               username: attendee.username,
@@ -88,7 +78,10 @@ export default function ListEvents() {
         {eventList.map((event: CreatedEvent) => {
           var meInEvent = false;
           return (
-            <div className="bg-white shadow-md hover:shadow-lg flex flex-row">
+            <div
+              className="bg-white shadow-md hover:shadow-lg flex flex-row"
+              key={"Event Details " + event.name}
+            >
               <div className="bg-blue-500 flex flex-col text-white content-center align-middle justify-center w-32 min-h-32 font-semibold">
                 <div className="text-3xl text-center">
                   {event.startTime.format("D")}
@@ -144,7 +137,16 @@ export default function ListEvents() {
                       {event.attendee.map((attendee: User) => {
                         if (attendee.id === me) meInEvent = true;
                         return (
-                          <div className="flex gap-1">
+                          <div
+                            className="flex gap-1"
+                            key={
+                              "AccountCircle " +
+                              "Event " +
+                              event.name +
+                              " Attendee " +
+                              attendee.id
+                            }
+                          >
                             <AccountCircleIcon />
                             {attendee.username}
                           </div>
