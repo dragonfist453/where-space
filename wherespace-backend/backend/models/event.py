@@ -12,7 +12,9 @@ from .user import User
 class EventObjective(UUIDMixin, models.Model):
     goal_text = models.TextField()
     todo_list = ArrayField(models.TextField(), default=list)
-    event = models.OneToOneField("EventObjective", on_delete=models.CASCADE)
+    event = models.OneToOneField(
+        "EventObjective", on_delete=models.CASCADE, related_name="objective"
+    )
 
 
 class Event(UUIDMixin, models.Model):
