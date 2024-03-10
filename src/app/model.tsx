@@ -28,9 +28,9 @@ type Todo = {
 
 type Objective = {
   id: string;
+  event: string;
   todos: Todo[];
-  goal_text: string;
-};
+}
 
 type User = {
   id: string;

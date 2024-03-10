@@ -20,14 +20,13 @@ import axios from "axios";
 import useWebSocket, { ReadyState } from "react-use-websocket";
 import React from "react";
 import {useRouter, useSearchParams} from "next/navigation";
+import DeleteIcon from '@mui/icons-material/Delete';
 
 // const me = "666b32f2-4005-48cf-be54-7c3964f9978f";
 
 export default function EventPage() {
   const searchParams = useSearchParams();
   const id = searchParams.get("id");
-
-  console.log(id);
 
   const [currentEvent, setCurrentEvent] = useState<CurrentEvent>({
     id: "",
@@ -113,7 +112,7 @@ function TaskSection({eventId} : {eventId: string}) {
     if (window !== undefined) {
       const userId = localStorage.getItem("user_id");
       if (userId !== null) {
-        setWS_URL( `ws://10.242.109.78:8000/ws/event_room/${eventId}/?user_id=${userId}`);
+        setWS_URL( `ws://10.242.109.78:8000/ws/objective/${eventId}/?user_id=${userId}`);
       } else {
         router.push("/login");
       }
@@ -139,32 +138,78 @@ function TaskSection({eventId} : {eventId: string}) {
     shouldReconnect: () => true,
     onMessage: (event: MessageEvent) => {
       const obj: Objective = JSON.parse(event.data);
+      console.log("Objective: ", obj);
       setObjective(obj);
     },
   });
-  const [objective, setObjective] = useState<Objective>();
+  const [objective, setObjective] = useState<Objective>({
+    id: "",
+    event: "",
+    todos: [],
+  });
 
   const send = () => {
-    sendJsonMessage(objective);
+    sendJsonMessage({content: inputContent, objective_id: objective.id});
   };
+  const sendDelete = (todo_id: string) => {
+    sendJsonMessage({delete_todo: todo_id, objective_id: objective.id});
+  }
+
+  const [inputContent, setInputContent] = useState<string>("");
+
+  const addNewTask = () => {
+    if (!canSend()) return;
+
+    send();
+
+    setInputContent("");
+  }
+
+  const canSend = () => {
+    return inputContent.length > 0;
+  }
 
   return (
     <Paper className="flex flex-col h-2/3 p-8 gap-4" elevation={3}>
       <div className="font-bold text-3xl ">Task List</div>
         {objective?.todos?.map((todo, index) => {
             return (
-             <TaskCard id={todo.id} content={todo.content} completed={todo.completed} key={todo.id}/>
+             <TaskCard id={todo.id} content={todo.content} completed={todo.completed} key={todo.id} onDelete={() => {
+               sendDelete(todo.id)
+             }}/>
             );
           })}
+      <Divider />
+      <div className={"flex ma"}>
+        <TextField
+          className={"flex-grow"}
+          label="Add Task"
+          value={inputContent}
+          onChange={(e) => {
+            setInputContent(e.target.value);
+          }}
+          onKeyDown={(e) => {
+            if (e.key === "Enter") {
+              addNewTask()
+            }
+          }}
+          />
+        <IconButton aria-label="add" onClick={addNewTask} disabled={inputContent.length === 0}>
+          <SendIcon />
+        </IconButton>
+      </div>
     </Paper>
   );
 }
 
-function TaskCard({ content, completed }: Todo) {
+function TaskCard({ content, completed, onDelete }: Todo & {onDelete: () => void}) {
   return (
     <Card variant="outlined">
       <Checkbox checked={completed} />
       {content}
+      <IconButton aria-label="delete" onClick={onDelete}>
+        <DeleteIcon />
+      </IconButton>
     </Card>
   );
 }
