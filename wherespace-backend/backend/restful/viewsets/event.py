@@ -75,9 +75,12 @@ class EventViewSet(viewsets.ModelViewSet):
     def attend(self, request, pk):
         event = get_object_or_404(Event, pk=pk)
         user = request.user
+        user_id = request.data.get("user_id")
 
         # TODO: remove when havel login
-        if user.is_anonymous:
+        if user_id:
+            user = User.objects.get(pk=user_id)
+        elif not user.is_anonymous:
             user = User.objects.get(pk=request.data["user"])
 
         if event.is_fully_booked:
