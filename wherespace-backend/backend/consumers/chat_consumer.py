@@ -1,4 +1,5 @@
 import json
+import uuid
 from typing import Tuple
 
 # from ..serializers import EventMessageSerializer  # Assuming you have this serializer
@@ -12,6 +13,11 @@ from ..restful.serializers.chat_room import EventMessageSerializer
 
 class HistoryMessageSerializer(serializers.Serializer):
     messages = EventMessageSerializer(many=True)
+
+
+def json_converter(o):
+    if isinstance(o, uuid.UUID):
+        return str(o)
 
 
 class ChatConsumer(AsyncWebsocketConsumer):
@@ -42,39 +48,41 @@ class ChatConsumer(AsyncWebsocketConsumer):
     # Receive message from WebSocket
     async def receive(self, text_data):
         text_data_json = json.loads(text_data)
-        message = text_data_json["message"]
+        message_text = text_data_json["message"]
 
         # Save the message
-        await self.save_message(message)
+        message = await self.save_message(message_text)
 
         # Send message to room group
         await self.channel_layer.group_send(
-            self.room_group_name, {"type": "chat_message", "message": message}
+            self.room_group_name,
+            {"type": "chat_message", "message": await self.serializes_message(message)},
         )
 
     # Receive message from room group
     async def chat_message(self, event):
-        message = event["message"]
+        message: str = event["message"]
 
         # Send message to WebSocket
-        await self.send(text_data=await self.serializes_message(message))
+        await self.send(text_data=message)
 
     @database_sync_to_async
     def serializes_messages(self, room) -> str:
         return json.dumps(
-            HistoryMessageSerializer({"messages": room.event_messages.all()}).data
+            HistoryMessageSerializer({"messages": room.event_messages.all()}).data,
+            default=json_converter,
         )
 
     @database_sync_to_async
-    def serializes_message(self, message) -> str:
-        return json.dumps(EventMessageSerializer(message).data)
+    def serializes_message(self, message: EventMessage) -> str:
+        return json.dumps(EventMessageSerializer(message).data, default=json_converter)
 
     @database_sync_to_async
-    def save_message(self, message):
-        event_room = EventRoom.objects.get(pk=self.event_id)
+    def save_message(self, message) -> EventMessage:
+        event_room = EventRoom.objects.get(event__pk=self.event_id)
         # Assume 'request.user' is the sender. Adjust according to your authentication setup.
-        EventMessage.objects.create(
-            event=event_room, sender=self.scope["user"], text=message
+        return EventMessage.objects.create(
+            room=event_room, sender=self.scope["user"], text=message
         )
 
     @database_sync_to_async

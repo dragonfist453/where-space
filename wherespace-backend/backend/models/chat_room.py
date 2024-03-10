@@ -1,6 +1,7 @@
 from django.db import models
 
 from .mixins import UUIDMixin
+from .user import User
 
 
 class _Message(UUIDMixin, models.Model):
@@ -20,7 +21,7 @@ class EventMessage(_Message):
         related_query_name="event_message",
     )
     sender = models.ForeignKey(
-        "User",
+        User,
         on_delete=models.CASCADE,
         related_name="event_messages",
         related_query_name="event_message",
