@@ -20,7 +20,7 @@ class EventFilter(django_filters.FilterSet):
         fields = ["start_time", "end_time", "bounding_box"]
 
     def filter_bounding_box(self, queryset, name, value: str):
-        east, north, south, west = map(float, value.split(","))
+        west, east, south, north = map(float, value.split(","))
 
         return queryset.filter(
             booking__space__longitude__gt=west,

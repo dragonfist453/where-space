@@ -20,7 +20,7 @@ class SpaceFilter(django_filters.FilterSet):
         fields = ["bounding_box", "type"]
 
     def filter_bounding_box(self, queryset, name, value: str):
-        east, north, south, west = map(float, value.split(","))
+        west, east, south, north = map(float, value.split(","))
 
         return queryset.filter(
             longitude__gt=west,
