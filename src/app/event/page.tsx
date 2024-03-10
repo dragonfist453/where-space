@@ -37,6 +37,7 @@ export default function EventPage() {
     endTime: moment().utc(),
     host: "",
     attendee: [],
+    summary: "",
   });
 
   useEffect(() => {
@@ -62,6 +63,7 @@ export default function EventPage() {
           endTime: moment(data.end_time),
           host: data.host,
           attendee: resAttendee,
+          summary: data.summary,
         });
       });
   }, []);
@@ -74,9 +76,14 @@ export default function EventPage() {
           <div className="flex flex-col w-full">
             <PeopleSection people={currentEvent.attendee} />
             <Divider />
-            <Paper className="font-bold text-3xl h-1/2 p-8" elevation={3}>
-              Summary
+            <Paper className=" h-1/2 p-8" elevation={3}>
+              <div className={"font-bold text-3xl"}>
+                Summary
+              </div>
               <Divider style={{ paddingTop: "10px" }} />
+              <div className={"mt-2 text-xl"}>
+                {currentEvent.summary}
+              </div>
             </Paper>
           </div>
           <Paper className="col-span-2 w-full px-12" elevation={3}>
