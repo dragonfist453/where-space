@@ -43,7 +43,6 @@ class BookingSerializer(serializers.ModelSerializer):
             "end_time",
             "host",
             "space_details",
-            "summary",
         ]
         read_only_fields = ["id"]
 

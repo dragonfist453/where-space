@@ -34,4 +34,5 @@ class EventSerializer(serializers.ModelSerializer):
             "attendees",
             "host",
             "objective",
+            "summary",
         ]
