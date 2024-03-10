@@ -107,19 +107,17 @@ export default function Home() {
             }}
           >
             {locations.map((location, index) => (
-              <>
-                <AdvancedMarker
-                  key={index}
-                  position={{
-                    lat: location.latitude,
-                    lng: location.longitude,
-                  }}
-                >
-                  <Badge badgeContent={location.usersCurrent} color="success">
-                    <Place color="error" style={{ scale: 2 }} />
-                  </Badge>
-                </AdvancedMarker>
-              </>
+              <AdvancedMarker
+                key={index}
+                position={{
+                  lat: location.latitude,
+                  lng: location.longitude,
+                }}
+              >
+                <Badge badgeContent={location.usersCurrent} color="success">
+                  <Place color="error" style={{ scale: 2 }} />
+                </Badge>
+              </AdvancedMarker>
             ))}
           </Map>
         </div>
