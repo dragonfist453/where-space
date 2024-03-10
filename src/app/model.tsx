@@ -13,6 +13,7 @@ type Event = {
 };
 
 type ChatMessage = {
+  id: string;
   from: string;
   time: Moment;
   content: string;
@@ -41,7 +42,7 @@ type Booking = {
 };
 
 type Space = {
-  id: string;
+  id?: string;
   name: string;
   description: string;
   imageUrl: string;
