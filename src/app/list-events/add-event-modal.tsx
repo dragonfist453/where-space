@@ -82,7 +82,7 @@ export default function AddEventModal({
                 </Button>
                 <Button
                   onClick={() => {
-                    axios.post("http://10.242.109.78:8000/events/", {
+                    axios.post("/events/", {
                       name: event.name,
                       start_time: event.startTime.toISOString(),
                       end_time: event.endTime.toISOString(),

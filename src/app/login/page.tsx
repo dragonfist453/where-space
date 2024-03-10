@@ -65,7 +65,7 @@ export default function LoginForm() {
               });
             }}
           >
-            Create
+           Login
           </Button>
         </Grid>
       </Container>
