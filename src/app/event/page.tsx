@@ -12,6 +12,7 @@ import {
   TextField,
 } from "@mui/material";
 import SendIcon from "@mui/icons-material/Send";
+import AddIcon from "@mui/icons-material/Add";
 import moment, { Moment } from "moment";
 import {useEffect, useRef, useState} from "react";
 import {ChatMessage, User, Event as CurrentEvent, Objective, Todo} from "../model";
@@ -202,7 +203,7 @@ function TaskSection({eventId} : {eventId: string}) {
           }}
           />
         <IconButton aria-label="add" onClick={addNewTask} disabled={inputContent.length === 0}>
-          <SendIcon />
+          <AddIcon />
         </IconButton>
       </div>
     </Paper>
