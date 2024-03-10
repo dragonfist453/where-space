@@ -19,11 +19,15 @@ import ResponsiveAppBar from "@/components/AppBar";
 import axios from "axios";
 import useWebSocket, { ReadyState } from "react-use-websocket";
 import React from "react";
+import { useSearchParams } from "next/navigation";
 
 const me = "666b32f2-4005-48cf-be54-7c3964f9978f";
 
 export default function EventPage() {
-  const id = window.location.hash.slice(1);
+  const searchParams = useSearchParams();
+  const id = searchParams.get("id");
+
+  console.log(id);
 
   const [currentEvent, setCurrentEvent] = useState<CurrentEvent>({
     id: "",
