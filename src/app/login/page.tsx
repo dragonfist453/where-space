@@ -6,7 +6,7 @@ import {UserLogin} from "@/app/model";
 import axios from "@/app/utils/axios-instance";
 import ResponsiveAppBar from "@/components/AppBar";
 
-export default function LoginForm({open, onClose}: {open: boolean, onClose: () => void}) {
+export default function LoginForm() {
   const [userLogin, setUserLogin] = useState<UserLogin>({
     username: "",
     password: "",
@@ -33,11 +33,6 @@ export default function LoginForm({open, onClose}: {open: boolean, onClose: () =
         }}
       />
       <div>
-        <Button onClick={() => {
-          onClose();
-        }}>
-          Cancel
-        </Button>
         <Button
           onClick={() => {
             axios.post("http://10.242.109.78:8000/users/login/", {
