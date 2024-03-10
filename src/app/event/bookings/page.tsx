@@ -17,7 +17,6 @@ import { Booking, User } from "@/app/model";
 import moment from "moment";
 import axios from "@/app/utils/axios-instance";
 import CustomButton from "@/app/event/bookings/component/button";
-import {mockLoc} from "@/example-data/exampleLocations";
 import GroupsIcon from "@mui/icons-material/Groups";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
@@ -47,7 +46,6 @@ export default function ListEvents() {
         setBookingList(resEventList);
       })
       .catch(function (error) {
-        setBookingList(mockLoc)
         console.log(error);
       });
   }, []);
