@@ -14,6 +14,7 @@ import MenuItem from "@mui/material/MenuItem";
 import Image from "next/image";
 import { Icon } from "@mui/material";
 import Link from "next/link";
+import {useEffect} from "react";
 
 const pages = [
   { name: "Home", link: "/" },
@@ -23,7 +24,6 @@ const pages = [
 const settings = [
   { name: "Bookings", link: "/event/bookings" },
   { name: "Events", link: "/list-events" },
-  { name: "Logout", link: "/login" },
 ];
 
 function ResponsiveAppBar() {
@@ -48,6 +48,24 @@ function ResponsiveAppBar() {
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
+
+  const handleLogout = () => {
+    localStorage.removeItem("user_id");
+    setLoggedIn(false);
+  }
+
+  const [loggedIn, setLoggedIn] = React.useState(false);
+
+  useEffect(() => {
+    if (window !== undefined) {
+      const userId = localStorage.getItem("user_id");
+      if (userId !== null) {
+        setLoggedIn(true);
+      } else {
+        setLoggedIn(false);
+      }
+    }
+  }, [loggedIn]);
 
   return (
     <AppBar position="static" style={{ zIndex: 100 }}>
@@ -208,6 +226,12 @@ function ResponsiveAppBar() {
                   </Link>
                 </MenuItem>
               ))}
+              {
+                (loggedIn) &&
+                <MenuItem key="Logout" onClick={handleLogout}>
+                  <Typography textAlign="center">Logout</Typography>
+                </MenuItem>
+              }
             </Menu>
           </Box>
         </Toolbar>

@@ -2,9 +2,10 @@ import { Box, Button, Modal, TextField, Typography } from "@mui/material";
 import { DateTimePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterMoment } from "@mui/x-date-pickers/AdapterMoment";
 import moment from "moment";
-import { useState } from "react";
+import {useEffect, useState} from "react";
 import { Event as NewEvent } from "../model";
 import axios from "@/app/utils/axios-instance";
+import {useRouter} from "next/navigation";
 
 export default function AddEventModal({
   open,
@@ -13,13 +14,29 @@ export default function AddEventModal({
   open: boolean;
   onClose: () => void;
 }) {
+  const router = useRouter()
+
+  useEffect(() => {
+    if (window !== undefined) {
+      const userId = localStorage.getItem("user_id");
+      if (userId !== null) {
+        setHost( userId);
+      } else {
+        router.push("/login");
+      }
+    }
+  }, []);
+
+  const [host, setHost] = useState<string>("");
+
+
   const [event, setEvent] = useState<NewEvent>({
     id: "",
     startTime: moment.utc(),
     endTime: moment.utc(),
     name: "",
     numberOfPeople: 0,
-    host: "666b32f2-4005-48cf-be54-7c3964f9978f",
+    host,
     attendee: [],
   });
 
@@ -70,7 +87,7 @@ export default function AddEventModal({
                       start_time: event.startTime.toISOString(),
                       end_time: event.endTime.toISOString(),
                       max_attendees: event.numberOfPeople,
-                      host: event.host,
+                      host: host,
                     });
                   }}
                 >

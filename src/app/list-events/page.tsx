@@ -24,11 +24,26 @@ import ResponsiveAppBar from "@/components/AppBar";
 import { useRouter } from "next/navigation";
 import React from "react";
 
-const me = "666b32f2-4005-48cf-be54-7c3964f9978f";
+// const me = "666b32f2-4005-48cf-be54-7c3964f9978f";
 
 export default function ListEvents() {
   const [openModal, setOpenModal] = useState<boolean>(false);
   const [eventList, setEventList] = useState<CreatedEvent[]>([]);
+
+  useEffect(() => {
+    if (window !== undefined) {
+      const userId = localStorage.getItem("user_id");
+      if (userId !== null) {
+        setMe( userId);
+      } else {
+        router.push("/login");
+      }
+    }
+  }, []);
+
+  const [me, setMe] = useState<string>("");
+
+
 
   useEffect(() => {
     axios

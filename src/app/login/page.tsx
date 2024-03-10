@@ -2,15 +2,18 @@
 
 import { Box, Button, Container, Grid, Modal, TextField } from "@mui/material";
 import { useState } from "react";
-import { UserLogin } from "@/app/model";
+import {User, UserLogin} from "@/app/model";
 import axios from "@/app/utils/axios-instance";
 import ResponsiveAppBar from "@/components/AppBar";
+import {useRouter} from "next/navigation";
 
 export default function LoginForm() {
   const [userLogin, setUserLogin] = useState<UserLogin>({
     username: "",
     password: "",
   });
+
+  const router = useRouter();
 
   return (
     <>
@@ -54,6 +57,11 @@ export default function LoginForm() {
             onClick={() => {
               axios.post("users/login/", {
                 ...userLogin,
+              }).then((res) => {
+                console.log(res.data);
+                const user: User = res.data;
+                localStorage.setItem("user_id", user.id);
+                router.push("/")
               });
             }}
           >

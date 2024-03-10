@@ -19,9 +19,9 @@ import ResponsiveAppBar from "@/components/AppBar";
 import axios from "axios";
 import useWebSocket, { ReadyState } from "react-use-websocket";
 import React from "react";
-import { useSearchParams } from "next/navigation";
+import {useRouter, useSearchParams} from "next/navigation";
 
-const me = "666b32f2-4005-48cf-be54-7c3964f9978f";
+// const me = "666b32f2-4005-48cf-be54-7c3964f9978f";
 
 export default function EventPage() {
   const searchParams = useSearchParams();
@@ -100,7 +100,22 @@ export default function EventPage() {
 }
 
 function TaskSection({eventId} : {eventId: string}) {
-  const WS_URL = `ws://10.242.109.78:8000/ws/objective/${eventId}/?user_id=${me}`;
+  const router = useRouter()
+
+  useEffect(() => {
+    if (window !== undefined) {
+      const userId = localStorage.getItem("user_id");
+      if (userId !== null) {
+        setWS_URL( `ws://10.242.109.78:8000/ws/event_room/${eventId}/?user_id=${userId}`);
+      } else {
+        router.push("/login");
+      }
+    }
+  }, []);
+
+  const [WS_URL, setWS_URL] = useState<string>("");
+
+  // const WS_URL = `ws://10.242.109.78:8000/ws/objective/${eventId}/?user_id=${me}`;
 
   const {
     sendJsonMessage,
@@ -129,9 +144,9 @@ function TaskSection({eventId} : {eventId: string}) {
   return (
     <Paper className="flex flex-col h-2/3 p-8 gap-4" elevation={3}>
       <div className="font-bold text-3xl ">Task List</div>
-        {objective?.todos.map((todo, index) => {
+        {objective?.todos?.map((todo, index) => {
             return (
-             <TaskCard id={todo.id} content={todo.content} completed={todo.completed} />
+             <TaskCard id={todo.id} content={todo.content} completed={todo.completed} key={todo.id}/>
             );
           })}
     </Paper>
@@ -175,7 +190,24 @@ function ChatSection({
   people: User[];
   name: string;
 }) {
-  const WS_URL = `ws://10.242.109.78:8000/ws/event_room/${id}/?user_id=${me}`;
+  const router = useRouter()
+
+  useEffect(() => {
+    if (window !== undefined) {
+      const userId = localStorage.getItem("user_id");
+      if (userId !== null) {
+        setWS_URL( `ws://10.242.109.78:8000/ws/event_room/${id}/?user_id=${userId}`);
+        setMe(userId);
+      } else {
+        router.push("/login");
+      }
+    }
+  }, []);
+
+  const [WS_URL, setWS_URL] = useState<string>("");
+  const [me, setMe] = useState<string>("");
+
+  // const WS_URL = `ws://10.242.109.78:8000/ws/event_room/${id}/?user_id=${me}`;
 
   const {
     sendJsonMessage,

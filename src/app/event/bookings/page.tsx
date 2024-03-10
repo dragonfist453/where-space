@@ -13,7 +13,6 @@ import {
 import PersonIcon from "@mui/icons-material/Person";
 import { useEffect, useState } from "react";
 // import AddEventModal from "./add-event-modal";
-import { Booking, User } from "@/app/model";
 import moment from "moment";
 import axios from "@/app/utils/axios-instance";
 import CustomButton from "@/app/event/bookings/component/button";
@@ -22,10 +21,10 @@ import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
-import { Space } from "@/app/model";
+import {Booking, Space} from "@/app/model";
 import { space } from "postcss/lib/list";
 
-const me = "666b32f2-4005-48cf-be54-7c3964f9978f";
+// const me = "666b32f2-4005-48cf-be54-7c3964f9978f";
 
 export default function ListEvents() {
   const [bookingList, setBookingList] = useState<Booking[]>([]);
@@ -97,7 +96,7 @@ export default function ListEvents() {
                     <div style={{textAlign:'right'}}>
                         <Button><CustomButton></CustomButton></Button>
                     </div>
-                    
+
                 </div>
                 <div></div>
                 <Collapse orientation="vertical">
@@ -112,5 +111,6 @@ export default function ListEvents() {
       </div>
       <Pagination count={1} />
     </main>
+    </>
   );
 }

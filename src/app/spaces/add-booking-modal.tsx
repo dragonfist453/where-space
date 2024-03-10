@@ -2,9 +2,10 @@ import { Box, Button, Modal, TextField, Typography } from "@mui/material";
 import { DateTimePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterMoment } from "@mui/x-date-pickers/AdapterMoment";
 import moment from "moment";
-import { useState } from "react";
+import {useEffect, useState} from "react";
 import { Booking as NewBooking, Space } from "../model";
 import axios from "@/app/utils/axios-instance";
+import {useRouter} from "next/navigation";
 
 export default function AddBookingModal({
   open,
@@ -21,6 +22,23 @@ export default function AddBookingModal({
     startTime: moment.utc(),
     endTime: moment.utc(),
   });
+
+  const router = useRouter()
+
+  useEffect(() => {
+    if (window !== undefined) {
+      const userId = localStorage.getItem("user_id");
+      if (userId !== null) {
+        setHost( userId);
+      } else {
+        router.push("/login");
+      }
+    }
+  }, []);
+
+  const [host, setHost] = useState<string>("");
+
+
 
   return (
     <LocalizationProvider dateAdapter={AdapterMoment}>
@@ -55,7 +73,7 @@ export default function AddBookingModal({
                         space: space.id,
                         start_time: event.startTime.toISOString(),
                         end_time: event.endTime.toISOString(),
-                        host: "666b32f2-4005-48cf-be54-7c3964f9978f",
+                        host: host,
                       })
                       .then(() => {
                         onClose();
