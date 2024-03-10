@@ -14,7 +14,7 @@ import MenuItem from "@mui/material/MenuItem";
 import Image from "next/image";
 import { Icon } from "@mui/material";
 import Link from "next/link";
-import {useEffect} from "react";
+import { useEffect } from "react";
 
 const pages = [
   { name: "Home", link: "/" },
@@ -52,7 +52,7 @@ function ResponsiveAppBar() {
   const handleLogout = () => {
     localStorage.removeItem("user_id");
     setLoggedIn(false);
-  }
+  };
 
   const [loggedIn, setLoggedIn] = React.useState(false);
 
@@ -138,11 +138,11 @@ function ResponsiveAppBar() {
               }}
             >
               {pages.map((page) => (
-                <MenuItem key={page.name} onClick={handleCloseNavMenu}>
-                  <Link href={page.link}>
+                <Link href={page.link} key={page.name}>
+                  <MenuItem onClick={handleCloseNavMenu}>
                     <Typography textAlign="center">{page.name}</Typography>
-                  </Link>
-                </MenuItem>
+                  </MenuItem>
+                </Link>
               ))}
             </Menu>
           </Box>
@@ -184,13 +184,14 @@ function ResponsiveAppBar() {
             }}
           >
             {pages.map((page) => (
-              <Button
-                key={page.name}
-                onClick={handleCloseNavMenu}
-                sx={{ my: 2, color: "white", display: "block" }}
-              >
-                <Link href={page.link}>{page.name}</Link>
-              </Button>
+              <Link href={page.link} key={page.name}>
+                <Button
+                  onClick={handleCloseNavMenu}
+                  sx={{ my: 2, color: "white", display: "block" }}
+                >
+                  {page.name}
+                </Button>
+              </Link>
             ))}
           </Box>
 
@@ -220,23 +221,29 @@ function ResponsiveAppBar() {
               onClose={handleCloseUserMenu}
             >
               {settings.map((setting) => (
-                <MenuItem key={setting.name} onClick={handleCloseUserMenu}>
-                  <Link href={setting.link}>
+                <Link href={setting.link} key={setting.name}>
+                  <MenuItem onClick={handleCloseUserMenu}>
                     <Typography textAlign="center">{setting.name}</Typography>
-                  </Link>
-                </MenuItem>
+                  </MenuItem>
+                </Link>
               ))}
-              {
-                (loggedIn) ?
-                <MenuItem key="Logout" onClick={() => {handleLogout(); handleCloseUserMenu();}}>
+              {loggedIn ? (
+                <MenuItem
+                  key="Logout"
+                  onClick={() => {
+                    handleLogout();
+                    handleCloseUserMenu();
+                  }}
+                >
                   <Typography textAlign="center">Logout</Typography>
-                </MenuItem> :
+                </MenuItem>
+              ) : (
                 <MenuItem key="Login" onClick={handleCloseUserMenu}>
                   <Link href={"/login"}>
                     <Typography textAlign="center">Login</Typography>
                   </Link>
                 </MenuItem>
-              }
+              )}
             </Menu>
           </Box>
         </Toolbar>
