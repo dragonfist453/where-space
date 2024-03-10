@@ -11,8 +11,6 @@ import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
-import AdbIcon from "@mui/icons-material/Adb";
-import { Height } from "@mui/icons-material";
 import Image from "next/image";
 import { Icon } from "@mui/material";
 import Link from "next/link";
@@ -69,11 +67,10 @@ function ResponsiveAppBar() {
               height={40}
             />
           </Icon>
-          <Link href="/">
+          <Link href={"/"}>
             <Typography
               variant="h6"
               noWrap
-              component="a"
               sx={{
                 mr: 2,
                 display: { xs: "none", md: "flex", lg: "flex", xl: "flex" },
@@ -148,8 +145,6 @@ function ResponsiveAppBar() {
           <Typography
             variant="h5"
             noWrap
-            component="a"
-            href="#app-bar-with-responsive-menu"
             sx={{
               mr: 2,
               display: { xs: "flex", md: "none" },
