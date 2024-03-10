@@ -180,6 +180,8 @@ function TaskSection({eventId} : {eventId: string}) {
             return (
              <TaskCard id={todo.id} content={todo.content} completed={todo.completed} key={todo.id} onDelete={() => {
                sendDelete(todo.id)
+             }} onChange={(val: boolean) => {
+                sendJsonMessage({complete_todo: todo.id, objective_id: objective.id, completed: val})
              }}/>
             );
           })}
@@ -207,10 +209,12 @@ function TaskSection({eventId} : {eventId: string}) {
   );
 }
 
-function TaskCard({ content, completed, onDelete }: Todo & {onDelete: () => void}) {
+function TaskCard({ content, completed, onDelete, onChange }: Todo & {onDelete: () => void, onChange: (val: boolean) => void}) {
   return (
     <Card variant="outlined" className={"my-3"}>
-      <Checkbox checked={completed} />
+      <Checkbox checked={completed} onChange={(event, checked) => {
+        onChange(checked);
+      }} />
       {content}
       <IconButton aria-label="delete" onClick={onDelete}>
         <DeleteIcon />
