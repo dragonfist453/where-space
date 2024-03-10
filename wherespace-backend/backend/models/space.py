@@ -37,3 +37,4 @@ class Booking(UUIDMixin, models.Model):
     host = models.ForeignKey(
         User, on_delete=models.CASCADE, related_name="host", related_query_name="host"
     )
+    checked_in = models.BooleanField(default=False)
