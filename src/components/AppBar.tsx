@@ -50,7 +50,7 @@ function ResponsiveAppBar() {
   };
 
   return (
-    <AppBar position="static">
+    <AppBar position="fixed" style={{ zIndex: 100 }}>
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           <Icon
