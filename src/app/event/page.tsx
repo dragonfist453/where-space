@@ -69,9 +69,9 @@ export default function EventPage() {
   return (
     <>
       <ResponsiveAppBar />
-      <main className="flex min-h-screen flex-col items-center justify-between">
+      <main className="flex flex-col items-center justify-between">
         <div className="grid grid-cols-4 w-full">
-          <div className="h-screen flex flex-col  w-full">
+          <div className="flex flex-col w-full">
             <PeopleSection people={currentEvent.attendee} />
             <Divider />
             <Paper className="font-bold text-3xl h-1/2 p-8" elevation={3}>
@@ -80,9 +80,13 @@ export default function EventPage() {
             </Paper>
           </div>
           <Paper className="col-span-2 w-full px-12" elevation={3}>
-            <ChatSection id={id} people={currentEvent.attendee} />
+            <ChatSection
+              id={id!!}
+              people={currentEvent.attendee}
+              name={currentEvent.name}
+            />
           </Paper>
-          <div className="h-screen w-full">
+          <div className="w-full">
             <TaskSection />
             <Divider />
             <Paper className="font-bold text-3xl h-1/3 p-8" elevation={3}>
@@ -133,7 +137,15 @@ function PeopleSection({ people }: { people: User[] }) {
   );
 }
 
-function ChatSection({ id, people }: { id: string; people: User[] }) {
+function ChatSection({
+  id,
+  people,
+  name,
+}: {
+  id: string;
+  people: User[];
+  name: string;
+}) {
   const WS_URL = `ws://10.242.109.78:8000/ws/event_room/${id}/?user_id=${me}`;
   const {
     sendJsonMessage,
@@ -171,7 +183,11 @@ function ChatSection({ id, people }: { id: string; people: User[] }) {
     setInputContent("");
   };
   return (
-    <Paper className="flex flex-col justify-end h-screen py-8" elevation={8}>
+    <Paper
+      className="flex flex-col justify-end py-8 px-4"
+      elevation={8}
+      style={{ height: "92.5vh" }}
+    >
       <div className="flex flex-col gap-2 text-xl mb-2">
         {messageList.map((message) => {
           if (message.from === "Me") {
