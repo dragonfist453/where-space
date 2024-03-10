@@ -21,7 +21,7 @@ const pages = [
   { name: "Peers", link: "/list-peers" },
 ];
 const settings = [
-  { name: "Bookings", link: "/bookings" },
+  { name: "Bookings", link: "/event/bookings" },
   { name: "Events", link: "/list-events" },
   { name: "Logout", link: "/login" },
 ];
