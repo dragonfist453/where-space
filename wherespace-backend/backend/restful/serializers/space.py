@@ -26,6 +26,7 @@ class SpaceSerializer(serializers.ModelSerializer):
 class BookingSerializer(serializers.ModelSerializer):
     space = serializers.PrimaryKeyRelatedField(queryset=Space.objects.all())
     host = serializers.PrimaryKeyRelatedField(queryset=User.objects.all())
+    space_details = serializers.SerializerMethodField(required=False)
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -35,5 +36,8 @@ class BookingSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Booking
-        fields = ["id", "space", "start_time", "end_time", "host"]
+        fields = ["id", "space", "start_time", "end_time", "host", "space_details"]
         read_only_fields = ["id"]
+
+    def get_space_details(self, obj):
+        return SpaceSerializer(obj.space).data
