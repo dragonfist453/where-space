@@ -28,6 +28,11 @@ type User = {
   openEvents?: boolean;
 };
 
+type UserLogin = {
+  username: string;
+  password: string;
+}
+
 type Booking = {
   id: string;
   space: Space;
@@ -53,4 +58,4 @@ export enum SpaceType {
   Meeting = "Meeting",
 }
 
-export type { Event, Booking, Space, User, ChatMessage };
+export type { Event, Booking, Space, User, ChatMessage, UserLogin };
