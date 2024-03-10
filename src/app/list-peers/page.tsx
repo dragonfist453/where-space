@@ -14,7 +14,7 @@ export default function ListPeers() {
   const [users, setUsers] = useState<User[]>([]);
   useEffect(() => {
     axios
-      .get("http://10.242.109.78:8000/users")
+      .get("users/")
       .then(function (response) {
         const resUsers: User[] = [];
         response.data.map((user: any) => {
