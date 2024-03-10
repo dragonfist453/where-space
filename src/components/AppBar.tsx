@@ -15,9 +15,18 @@ import AdbIcon from "@mui/icons-material/Adb";
 import { Height } from "@mui/icons-material";
 import Image from "next/image";
 import { Icon } from "@mui/material";
+import Link from "next/link";
 
-const pages = ["Home", "Space", "Buddy", "Settings"];
-const settings = ["Bookings", "Events", "Logout"];
+const pages = [
+  { name: "Home", link: "/" },
+  { name: "Spaces", link: "/spaces" },
+  { name: "Peers", link: "/list-peers" },
+];
+const settings = [
+  { name: "Bookings", link: "/bookings" },
+  { name: "Events", link: "/list-events" },
+  { name: "Logout", link: "/login" },
+];
 
 function ResponsiveAppBar() {
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
@@ -46,32 +55,45 @@ function ResponsiveAppBar() {
     <AppBar position="static">
       <Container maxWidth="xl">
         <Toolbar disableGutters>
-          <Image
-            src="/logo.png"
-            alt="logo"
-            style={{ width: "auto", paddingRight: "10px" }}
-            width={40}
-            height={40}
-          />
-          <Typography
-            variant="h6"
-            noWrap
-            component="a"
-            href="#app-bar-with-responsive-menu"
+          <Icon
             sx={{
-              mr: 2,
-              display: { xs: "none", md: "flex" },
-              fontFamily: "monospace",
-              fontWeight: 700,
-              letterSpacing: ".3rem",
-              color: "inherit",
-              textDecoration: "none",
+              display: { xs: "none", md: "flex", lg: "flex", xl: "flex" },
+              mr: 1,
             }}
           >
-            Where Space
-          </Typography>
+            <Image
+              src="/logo.png"
+              alt="logo"
+              style={{ width: "auto" }}
+              width={40}
+              height={40}
+            />
+          </Icon>
+          <Link href="/">
+            <Typography
+              variant="h6"
+              noWrap
+              component="a"
+              sx={{
+                mr: 2,
+                display: { xs: "none", md: "flex", lg: "flex", xl: "flex" },
+                fontFamily: "monospace",
+                fontWeight: 700,
+                letterSpacing: ".3rem",
+                color: "inherit",
+                textDecoration: "none",
+              }}
+            >
+              Where Space
+            </Typography>
+          </Link>
 
-          <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
+          <Box
+            sx={{
+              flexGrow: 1,
+              display: { xs: "flex", md: "none", lg: "none", xl: "none" },
+            }}
+          >
             <IconButton
               size="large"
               aria-label="account of current user"
@@ -101,13 +123,20 @@ function ResponsiveAppBar() {
               }}
             >
               {pages.map((page) => (
-                <MenuItem key={page} onClick={handleCloseNavMenu}>
-                  <Typography textAlign="center">{page}</Typography>
+                <MenuItem key={page.name} onClick={handleCloseNavMenu}>
+                  <Link href={page.link}>
+                    <Typography textAlign="center">{page.name}</Typography>
+                  </Link>
                 </MenuItem>
               ))}
             </Menu>
           </Box>
-          <Icon sx={{ display: { xs: "flex", md: "none" }, mr: 1 }}>
+          <Icon
+            sx={{
+              display: { xs: "flex", md: "none", lg: "none", xl: "none" },
+              mr: 1,
+            }}
+          >
             <Image
               src="/logo.png"
               alt="logo"
@@ -132,7 +161,7 @@ function ResponsiveAppBar() {
               textDecoration: "none",
             }}
           >
-            LOGO
+            Where Space
           </Typography>
           <Box
             sx={{
@@ -143,11 +172,11 @@ function ResponsiveAppBar() {
           >
             {pages.map((page) => (
               <Button
-                key={page}
+                key={page.name}
                 onClick={handleCloseNavMenu}
                 sx={{ my: 2, color: "white", display: "block" }}
               >
-                {page}
+                <Link href={page.link}>{page.name}</Link>
               </Button>
             ))}
           </Box>
@@ -178,8 +207,10 @@ function ResponsiveAppBar() {
               onClose={handleCloseUserMenu}
             >
               {settings.map((setting) => (
-                <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                  <Typography textAlign="center">{setting}</Typography>
+                <MenuItem key={setting.name} onClick={handleCloseUserMenu}>
+                  <Link href={setting.link}>
+                    <Typography textAlign="center">{setting.name}</Typography>
+                  </Link>
                 </MenuItem>
               ))}
             </Menu>

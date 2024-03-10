@@ -76,7 +76,7 @@ export default function Home() {
       <ResponsiveAppBar />
       <SearchBar locations={locations} />
       <APIProvider apiKey={process.env.NEXT_PUBLIC_GMAPS_API_KEY || ""}>
-        <div style={{ height: "100vh", width: "100vw" }}>
+        <div style={{ height: "94vh", width: "100vw" }}>
           <Map
             center={center}
             zoom={zoom}

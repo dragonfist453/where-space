@@ -13,24 +13,28 @@ import SendIcon from "@mui/icons-material/Send";
 import moment, { Moment } from "moment";
 import { useState } from "react";
 import { ChatMessage, User } from "../model";
+import ResponsiveAppBar from "@/components/AppBar";
 
 export default function EventPage() {
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between">
-      <div className="grid grid-cols-4 w-full">
-        <div className="h-screen flex flex-col  w-full">
-          <PeopleSection />
-          <div className="font-bold text-3xl h-1/2 p-8">Summary</div>
+    <>
+      <ResponsiveAppBar />
+      <main className="flex min-h-screen flex-col items-center justify-between">
+        <div className="grid grid-cols-4 w-full">
+          <div className="h-screen flex flex-col  w-full">
+            <PeopleSection />
+            <div className="font-bold text-3xl h-1/2 p-8">Summary</div>
+          </div>
+          <div className="col-span-2 w-full px-12">
+            <ChatSection />
+          </div>
+          <div className="h-screen w-full">
+            <TaskSection />
+            <div className="font-bold text-3xl h-1/3 p-8">What We Do</div>
+          </div>
         </div>
-        <div className="col-span-2 w-full px-12">
-          <ChatSection />
-        </div>
-        <div className="h-screen w-full">
-          <TaskSection />
-          <div className="font-bold text-3xl h-1/3 p-8">What We Do</div>
-        </div>
-      </div>
-    </main>
+      </main>
+    </>
   );
 }
 
@@ -112,14 +116,20 @@ function ChatSection() {
         {messageList.map((message) => {
           if (message.from.username === "Me") {
             return (
-              <span className="flex w-full justify-end items-center">
+              <span
+                className="flex w-full justify-end items-center"
+                key={"Me " + message.content}
+              >
                 {message.content} :Me
                 <AccountCircleIcon />
               </span>
             );
           }
           return (
-            <span className="flex w-full justify-start items-center">
+            <span
+              className="flex w-full justify-start items-center"
+              key={"Incoming " + message.content}
+            >
               <AccountCircleIcon />
               {message.from.username}: {message.content}
             </span>

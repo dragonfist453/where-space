@@ -8,6 +8,7 @@ import SpaceTypeSelect from "./SpaceTypeSelect";
 import { useEffect, useState } from "react";
 import axios, { AxiosResponse } from "axios";
 import { exampleLocations } from "@/example-data/exampleLocations";
+import ResponsiveAppBar from "@/components/AppBar";
 
 export default function Spaces() {
   const [locations, setLocations] = useState<Space[]>([]);
@@ -74,66 +75,69 @@ export default function Spaces() {
   }, []);
 
   return (
-    <div style={{ height: "100vh", width: "100vw", overflow: "hidden" }}>
-      <Grid container spacing={2}>
-        <Grid
-          item
-          xs={4}
-          height="100vh"
-          style={{
-            overflowY: "scroll",
-            overflowX: "hidden",
-          }}
-        >
-          <Divider
-            orientation="horizontal"
-            style={{ paddingTop: "10px", paddingBottom: "10px" }}
-          />
-          <div style={{ margin: "auto", width: "95%" }}>
-            <SpaceTypeSelect />
-          </div>
-          <Divider
-            orientation="horizontal"
-            style={{ paddingTop: "10px", paddingBottom: "10px" }}
-          />
-          <Grid container>
-            {locations.map((location, index) => (
-              <Grid item xs={12} key={index}>
-                <SpaceItemCard location={location} index={index} />
-              </Grid>
-            ))}
+    <>
+      <ResponsiveAppBar />
+      <div style={{ height: "94vh", width: "100vw", overflow: "hidden" }}>
+        <Grid container spacing={2}>
+          <Grid
+            item
+            xs={4}
+            height="100vh"
+            style={{
+              overflowY: "scroll",
+              overflowX: "hidden",
+            }}
+          >
+            <Divider
+              orientation="horizontal"
+              style={{ paddingTop: "10px", paddingBottom: "10px" }}
+            />
+            <div style={{ margin: "auto", width: "95%" }}>
+              <SpaceTypeSelect />
+            </div>
+            <Divider
+              orientation="horizontal"
+              style={{ paddingTop: "10px", paddingBottom: "10px" }}
+            />
+            <Grid container>
+              {locations.map((location, index) => (
+                <Grid item xs={12} key={index}>
+                  <SpaceItemCard location={location} index={index} />
+                </Grid>
+              ))}
+            </Grid>
+          </Grid>
+          <Grid item xs={8} height="100vh">
+            <APIProvider apiKey={process.env.NEXT_PUBLIC_GMAPS_API_KEY || ""}>
+              <Map
+                center={center}
+                zoom={zoom}
+                mapId={"spaces-map"}
+                gestureHandling={"greedy"}
+                disableDefaultUI={true}
+                onCameraChanged={(cameraEvent) => {
+                  setCenter({
+                    lat: cameraEvent.detail.center.lat,
+                    lng: cameraEvent.detail.center.lng,
+                  });
+                  setZoom(cameraEvent.detail.zoom);
+                  setBounds(cameraEvent.detail.bounds);
+                }}
+              >
+                {locations.map((location, index) => (
+                  <AdvancedMarker
+                    key={index}
+                    position={{
+                      lat: location.latitude,
+                      lng: location.longitude,
+                    }}
+                  />
+                ))}
+              </Map>
+            </APIProvider>
           </Grid>
         </Grid>
-        <Grid item xs={8} height="100vh">
-          <APIProvider apiKey={process.env.NEXT_PUBLIC_GMAPS_API_KEY || ""}>
-            <Map
-              center={center}
-              zoom={zoom}
-              mapId={"spaces-map"}
-              gestureHandling={"greedy"}
-              disableDefaultUI={true}
-              onCameraChanged={(cameraEvent) => {
-                setCenter({
-                  lat: cameraEvent.detail.center.lat,
-                  lng: cameraEvent.detail.center.lng,
-                });
-                setZoom(cameraEvent.detail.zoom);
-                setBounds(cameraEvent.detail.bounds);
-              }}
-            >
-              {locations.map((location, index) => (
-                <AdvancedMarker
-                  key={index}
-                  position={{
-                    lat: location.latitude,
-                    lng: location.longitude,
-                  }}
-                />
-              ))}
-            </Map>
-          </APIProvider>
-        </Grid>
-      </Grid>
-    </div>
+      </div>
+    </>
   );
 }
