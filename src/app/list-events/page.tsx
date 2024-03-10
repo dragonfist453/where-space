@@ -32,12 +32,7 @@ export default function ListEvents() {
 
   useEffect(() => {
     axios
-      .get("http://10.242.109.78:8000/events", {
-        headers: {
-          "Access-Control-Allow-Origin": "*",
-          "Access-Control-Allow-Methods": "GET",
-        },
-      })
+      .get("events/")
       .then(function (response) {
         const resEventList: CreatedEvent[] = [];
         response.data.map((event: any) => {
@@ -195,12 +190,9 @@ export default function ListEvents() {
                                   className="p-0 mr-1"
                                   onClick={() => {
                                     axios
-                                      .post(
-                                        `http://10.242.109.78:8000/events/${event.id}/attend/`,
-                                        {
-                                          user: me,
-                                        }
-                                      )
+                                      .post(`events/${event.id}/attend/`, {
+                                        user: me,
+                                      })
                                       .then(() => {
                                         const meUser: User = {
                                           id: me,
