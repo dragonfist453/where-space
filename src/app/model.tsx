@@ -10,6 +10,7 @@ type Event = {
   host: string;
   attendee: User[];
   showAttendee?: boolean;
+  summary: string;
 };
 
 type ChatMessage = {
