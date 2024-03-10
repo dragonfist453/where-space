@@ -1,5 +1,4 @@
 from channels.db import database_sync_to_async
-from django.contrib.postgres.fields import ArrayField
 from django.db import models
 from django.db.models.signals import post_save
 from django.dispatch import receiver
@@ -9,9 +8,16 @@ from .space import Booking
 from .user import User
 
 
+class Todo(UUIDMixin, models.Model):
+    text = models.TextField()
+    completed = models.BooleanField(default=False)
+    event_objective = models.ForeignKey(
+        "EventObjective", related_name="todos", on_delete=models.CASCADE
+    )
+
+
 class EventObjective(UUIDMixin, models.Model):
     goal_text = models.TextField()
-    todo_list = ArrayField(models.TextField(), default=list)
     event = models.OneToOneField(
         "backend.Event", on_delete=models.CASCADE, related_name="objective"
     )
@@ -57,4 +63,4 @@ class Event(UUIDMixin, models.Model):
 @receiver(post_save, sender=Event)
 def create_user_privacy(sender, instance, created, **kwargs):
     if created:
-        EventObjective.objects.create(goal_text="", todo_list=[], event=instance)
+        EventObjective.objects.create(goal_text="", event=instance)

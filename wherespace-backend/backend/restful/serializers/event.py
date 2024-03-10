@@ -12,7 +12,7 @@ User = apps.get_model("backend", "User")
 class EventObjectiveSerializer(serializers.ModelSerializer):
     class Meta:
         model = EventObjective
-        fields = ["id", "goal_text", "todo_list"]
+        fields = ["id", "goal_text", "todos"]
         read_only_fields = ["id"]
 
 
