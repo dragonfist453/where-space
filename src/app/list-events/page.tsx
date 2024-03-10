@@ -90,7 +90,10 @@ export default function ListEvents() {
             return (
               <React.Fragment key={index}>
                 <div
-                  onClick={() => router.push(`/event/?id=${event.id}`)}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    router.push(`/event/?id=${event.id}`);
+                  }}
                   className="bg-white shadow-md hover:shadow-lg flex flex-row"
                   key={"Event Details " + event.name}
                 >
