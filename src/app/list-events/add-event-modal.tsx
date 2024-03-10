@@ -57,19 +57,26 @@ export default function AddEventModal({
                 value={event.endTime}
                 onChange={(value) => setEvent({ ...event, endTime: value!! })}
               />
-              <Button
-                onClick={() => {
-                  axios.post("http://10.242.109.78:8000/events/", {
-                    name: event.name,
-                    start_time: event.startTime.toISOString(),
-                    end_time: event.endTime.toISOString(),
-                    max_attendees: event.numberOfPeople,
-                    host: event.host,
-                  });
-                }}
-              >
-                Create
-              </Button>
+              <div>
+                <Button onClick = {() => {
+                  onClose();
+                }}>
+                  Cancel
+                </Button>
+                <Button
+                  onClick={() => {
+                    axios.post("http://10.242.109.78:8000/events/", {
+                      name: event.name,
+                      start_time: event.startTime.toISOString(),
+                      end_time: event.endTime.toISOString(),
+                      max_attendees: event.numberOfPeople,
+                      host: event.host,
+                    });
+                  }}
+                >
+                  Create
+                </Button>
+              </div>
             </div>
           </div>
         </div>

@@ -13,14 +13,18 @@ import {
 } from "@mui/material";
 
 import PlaceIcon from "@mui/icons-material/Place";
+import {useState} from "react";
+import AddBookingModal from "@/app/list-events/add-booking-modal";
 
 const SpaceItemCard = ({
-  location,
-  index,
-}: {
+                         location,
+                         index,
+                       }: {
   location: Space;
   index: number;
 }) => {
+  const [expanded, setExpanded] = useState(false);
+
   return (
     <Card
       key={index}
@@ -32,6 +36,7 @@ const SpaceItemCard = ({
       }}
       elevation={3}
     >
+      <AddBookingModal open={expanded} space={location} onClose={() => setExpanded(false)}/>
       <Box sx={{ display: "flex", flexDirection: "row" }}>
         <CardContent>
           <Typography variant="h5" color="text.primary">
