@@ -15,7 +15,7 @@ import { useEffect, useState } from "react";
 // import AddEventModal from "./add-event-modal";
 import moment from "moment";
 import axios from "@/app/utils/axios-instance";
-import CustomButton from "@/app/event/bookings/component/button";
+import CustomButton from "@/app/event/bookings/component/ToggleButton";
 import GroupsIcon from "@mui/icons-material/Groups";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
@@ -23,34 +23,42 @@ import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import { Booking, Space } from "@/app/model";
 import { space } from "postcss/lib/list";
+import ResponsiveAppBar from "@/components/AppBar";
+import ToggleButton from "@/app/event/bookings/component/ToggleButton";
 
 // const me = "666b32f2-4005-48cf-be54-7c3964f9978f";
 
 export default function ListEvents() {
   const [bookingList, setBookingList] = useState<Booking[]>([]);
+  const [reload, setReload] = useState(true);
 
   useEffect(() => {
-    axios
-      .get(`bookings/`)
-      .then(function (response) {
-        const resEventList: Booking[] = [];
-        response.data.map((booking: any) => {
-          resEventList.push({
-            id: booking.id,
-            startTime: moment(booking.start_time),
-            endTime: moment(booking.end_time),
-            space: booking.space_details,
+    if (reload) {
+      axios
+        .get(`bookings/`)
+        .then(function (response) {
+          const resEventList: Booking[] = [];
+          response.data.map((booking: any) => {
+            resEventList.push({
+              id: booking.id,
+              startTime: moment(booking.start_time),
+              endTime: moment(booking.end_time),
+              space: booking.space_details,
+            });
           });
+          setBookingList(resEventList);
+          setReload(false);
+        })
+        .catch(function (error) {
+          console.log(error);
+          setReload(false);
         });
-        setBookingList(resEventList);
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
-  }, []);
+    }
+  }, [reload]);
 
   return (
     <>
+      <ResponsiveAppBar />
       <main className="flex min-h-screen flex-col items-center justify-between p-24">
         <div className="flex flex-col gap-6">
           <div className="font-bold text-3xl">Upcoming Bookings</div>
@@ -69,7 +77,7 @@ export default function ListEvents() {
             return (
               <div
                 className="bg-white shadow-md hover:shadow-lg flex flex-row"
-                key={"Booking Details " + booking.space.name}
+                key={"Booking Details " + booking.space.name + booking.id}
               >
                 <div className="bg-blue-500 flex flex-col text-white content-center align-middle justify-center w-32 min-h-32 font-semibold">
                   <div className="text-3xl text-center">
@@ -95,9 +103,10 @@ export default function ListEvents() {
                       <div>end: {booking.endTime.format("HH:mm")}</div>
                     </div>
                     <div style={{ textAlign: "right" }}>
-                      <Button>
-                        <CustomButton></CustomButton>
-                      </Button>
+                      <ToggleButton
+                        booking={booking}
+                        setReload={(reload) => setReload(reload)}
+                      ></ToggleButton>
                     </div>
                   </div>
                   <div></div>
