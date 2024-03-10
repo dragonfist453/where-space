@@ -1,4 +1,5 @@
 from django.contrib.auth.models import AbstractUser
+from django.contrib.postgres.fields import ArrayField
 from django.db import models
 
 from .mixins import UUIDMixin
@@ -50,10 +51,10 @@ class UserInterests(models.TextChoices):
 
 
 class User(UUIDMixin, AbstractUser):
-    # interests = ArrayField(
-    #     models.CharField(max_length=512, choices=UserInterests.choices),
-    #     default=list,
-    # )
+    interests = ArrayField(
+        models.CharField(max_length=512, choices=UserInterests.choices),
+        default=list,
+    )
     profile_picture_url = models.URLField()
     privacy = models.BooleanField(default=True)
 
