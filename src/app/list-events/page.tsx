@@ -115,9 +115,6 @@ export default function ListEvents() {
                           <GroupsIcon className="fill-yellow-400" />
                         )}
                       </div>
-                      <div className="text-xl text-center">
-                        {event.startTime.format("MMMM")}
-                      </div>
                     </div>
                     <div className="flex flex-col px-4 pt-4 pb-1 w-96 justify-between">
                       <div>
