@@ -12,7 +12,8 @@ import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import AdbIcon from "@mui/icons-material/Adb";
-import { Height } from "@mui/icons-material";
+import { AlignHorizontalLeft, Height } from "@mui/icons-material";
+import { alignProperty } from "@mui/material/styles/cssUtils";
 
 const pages = ["Home", "Space", "Buddy", "Settings"];
 const settings = ["Bookings", "Events", "Logout"];
@@ -44,8 +45,7 @@ function ResponsiveAppBar() {
     <AppBar position="static">
       <Container maxWidth="xl">
         <Toolbar disableGutters>
-          {/* <AdbIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} /> */}
-          <img src="logo.png" height={35} width={35}></img>
+          <img src="logo.png" height={35} width={35} ></img>
           <Typography
             variant="h6"
             noWrap
