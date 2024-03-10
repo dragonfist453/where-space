@@ -90,8 +90,7 @@ export default function ListEvents() {
             return (
               <React.Fragment key={index}>
                 <div
-                  onClick={(e) => {
-                    e.stopPropagation();
+                  onClick={() => {
                     router.push(`/event/?id=${event.id}`);
                   }}
                   className="bg-white shadow-md hover:shadow-lg flex flex-row"
@@ -133,7 +132,8 @@ export default function ListEvents() {
                     </div>
                     <div
                       className="flex flex-row items-center justify-between gap-1 w-full"
-                      onClick={() =>
+                      onClick={(e) => {
+                        e.stopPropagation();
                         setEventList((prevEvents) =>
                           prevEvents.map((prevEvent) =>
                             prevEvent.id === event.id
@@ -143,35 +143,8 @@ export default function ListEvents() {
                                 }
                               : prevEvent
                           )
-                        )
-                      }
-                    >
-                      <div className="flex">
-                        <PersonIcon />
-                        <div className=""> max {event.numberOfPeople}</div>
-                      </div>
-                      <button className="p-0.5 self-end rounded-full">
-                        {event.showAttendee ? (
-                          <KeyboardArrowUpIcon />
-                        ) : (
-                          <KeyboardArrowDownIcon />
-                        )}
-                      </button>
-                    </div>
-                    <div
-                      className="flex flex-row items-center justify-between gap-1 w-full"
-                      onClick={() =>
-                        setEventList((prevEvents) =>
-                          prevEvents.map((prevEvent) =>
-                            prevEvent.id === event.id
-                              ? {
-                                  ...prevEvent,
-                                  showAttendee: !event.showAttendee,
-                                }
-                              : prevEvent
-                          )
-                        )
-                      }
+                        );
+                      }}
                     >
                       <div className="flex">
                         <PersonIcon />
