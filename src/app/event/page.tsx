@@ -75,7 +75,11 @@ export default function EventPage() {
             <div className="font-bold text-3xl h-1/2 p-8">Summary</div>
           </div>
           <Paper className="col-span-2 w-full px-12">
-            <ChatSection id={id!!} people={currentEvent.attendee} />
+            <ChatSection
+              id={id!!}
+              people={currentEvent.attendee}
+              name={currentEvent.name}
+            />
           </Paper>
           <div className="w-full">
             <TaskSection />
@@ -124,7 +128,15 @@ function PeopleSection({ people }: { people: User[] }) {
   );
 }
 
-function ChatSection({ id, people }: { id: string; people: User[] }) {
+function ChatSection({
+  id,
+  people,
+  name,
+}: {
+  id: string;
+  people: User[];
+  name: string;
+}) {
   const WS_URL = `ws://10.242.109.78:8000/ws/event_room/${id}/?user_id=${me}`;
   const {
     sendJsonMessage,
@@ -166,6 +178,7 @@ function ChatSection({ id, people }: { id: string; people: User[] }) {
       className="flex flex-col justify-end py-8"
       style={{ height: "92.5vh" }}
     >
+      <div className="fixed top-4 mt-20 font-bold text-3xl">Room: {name}</div>
       <div className="flex flex-col gap-2 text-xl mb-2">
         {messageList.map((message) => {
           if (message.from === "Me") {
