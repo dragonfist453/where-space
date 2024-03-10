@@ -147,6 +147,7 @@ function ChatSection({
   name: string;
 }) {
   const WS_URL = `ws://10.242.109.78:8000/ws/event_room/${id}/?user_id=${me}`;
+
   const {
     sendJsonMessage,
     lastJsonMessage,
@@ -160,21 +161,43 @@ function ChatSection({
   } = useWebSocket(WS_URL, {
     share: false,
     shouldReconnect: () => true,
+    onMessage: (event: MessageEvent) => {
+      console.log("Message received", event.data);
+      const obj = JSON.parse(event.data);
+      if (obj.messages !== undefined) {
+        setMessageList(obj.messages.map((message: any) => {
+          return {
+            from: message.sender,
+            content: message.text,
+            time: moment(message.created_at),
+          }
+        }));
+      } else {
+        setMessageList([
+          ...messageList,
+          {
+            from: obj.sender,
+            content: obj.text,
+            time: moment(obj.created_at),
+          },
+        ])
+      }
+    },
   });
   const [messageList, setMessageList] = useState<ChatMessage[]>([]);
-
-  useEffect(() => {
-    if (lastJsonMessage != null && lastJsonMessage.text) {
-      setMessageList([
-        ...messageList,
-        {
-          from: lastJsonMessage.sender,
-          content: lastJsonMessage.text,
-          time: moment(lastJsonMessage.created_at),
-        },
-      ]);
-    }
-  }, [lastJsonMessage]);
+  //
+  // useEffect(() => {
+  //   if (lastJsonMessage != null && lastJsonMessage.text) {
+  //     setMessageList([
+  //       ...messageList,
+  //       {
+  //         from: lastJsonMessage.sender,
+  //         content: lastJsonMessage.text,
+  //         time: moment(lastJsonMessage.created_at),
+  //       },
+  //     ]);
+  //   }
+  // }, [lastJsonMessage]);
 
   const [inputContent, setInputContent] = useState<string>("");
 
