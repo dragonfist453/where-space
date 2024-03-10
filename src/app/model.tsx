@@ -13,6 +13,7 @@ type Event = {
 };
 
 type ChatMessage = {
+  id: string;
   from: string;
   time: Moment;
   content: string;
