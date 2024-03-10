@@ -1,7 +1,7 @@
 "use client";
 
 import SpaceItemCard from "@/components/SpaceItemCard";
-import { Space, SpaceType } from "@/model/Space";
+import { Space, SpaceType } from "@/app/model";
 import { Divider, Grid } from "@mui/material";
 import { APIProvider, AdvancedMarker, Map } from "@vis.gl/react-google-maps";
 import SpaceTypeSelect from "./SpaceTypeSelect";

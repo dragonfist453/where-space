@@ -32,9 +32,20 @@ type Booking = {
 };
 
 type Space = {
-  id: string;
-  name: String;
-  url: String;
+  name: string;
+  description: string;
+  imageUrl: string;
+  locationUrl: string;
+  rating: number;
+  type: SpaceType;
+  latitude: number;
+  longitude: number;
 };
+
+export enum SpaceType {
+  Silent = "Silent",
+  Busy = "Busy",
+  Meeting = "Meeting",
+}
 
 export type { Event, Booking, Space, User, ChatMessage };
