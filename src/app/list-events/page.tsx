@@ -166,22 +166,24 @@ export default function ListEvents() {
                           {event.attendee.length === 0 && (
                             <div className="">No Attendee</div>
                           )}
-                          {event.attendee.map((attendee: User) => {
+                          {event.attendee.map((attendee: User, index) => {
                             if (attendee.id === me) meInEvent = true;
                             return (
-                              <div
-                                className="flex gap-1"
-                                key={
-                                  "AccountCircle " +
-                                  "Event " +
-                                  event.name +
-                                  " Attendee " +
-                                  attendee.id
-                                }
-                              >
-                                <AccountCircleIcon />
-                                {attendee.firstName} {attendee.lastName}
-                              </div>
+                              <React.Fragment key={index}>
+                                <div
+                                  className="flex gap-1"
+                                  key={
+                                    "AccountCircle " +
+                                    "Event " +
+                                    event.name +
+                                    " Attendee " +
+                                    attendee.id
+                                  }
+                                >
+                                  <AccountCircleIcon />
+                                  {attendee.firstName} {attendee.lastName}
+                                </div>
+                              </React.Fragment>
                             );
                           })}
                           {meInEvent ? (
