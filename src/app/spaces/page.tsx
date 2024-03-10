@@ -21,6 +21,7 @@ export default function Spaces() {
     south: -90,
     west: -180,
   });
+  const [spaceType, setSpaceType] = useState("");
 
   useEffect(() => {
     axios
@@ -54,13 +55,21 @@ export default function Spaces() {
             };
           }
         );
-        setLocations(locations);
+        if (spaceType !== "") {
+          setLocations(
+            locations.filter(
+              (location) => location.type === spaceType.toLocaleUpperCase()
+            )
+          );
+        } else {
+          setLocations(locations);
+        }
       })
       .catch((error) => {
         console.error(error);
         setLocations(exampleLocations);
       });
-  }, [bounds]);
+  }, [bounds, spaceType]);
 
   useEffect(() => {
     navigator.geolocation.getCurrentPosition((position) => {
@@ -93,7 +102,10 @@ export default function Spaces() {
               style={{ paddingTop: "10px", paddingBottom: "10px" }}
             />
             <div style={{ margin: "auto", width: "95%" }}>
-              <SpaceTypeSelect />
+              <SpaceTypeSelect
+                spaceType={spaceType}
+                setSpaceType={setSpaceType}
+              />
             </div>
             <Divider
               orientation="horizontal"

@@ -6,9 +6,13 @@ import Select, { SelectChangeEvent } from "@mui/material/Select";
 import { useState } from "react";
 import { SpaceType } from "@/app/model";
 
-export default function SpaceTypeSelect() {
-  const [spaceType, setSpaceType] = useState("");
-
+export default function SpaceTypeSelect({
+  spaceType,
+  setSpaceType,
+}: {
+  spaceType: string;
+  setSpaceType: (value: string) => void;
+}) {
   const handleChange = (event: SelectChangeEvent) => {
     setSpaceType(event.target.value as string);
   };
