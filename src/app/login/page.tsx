@@ -35,7 +35,7 @@ export default function LoginForm() {
       <div>
         <Button
           onClick={() => {
-            axios.post("http://10.242.109.78:8000/users/login/", {
+            axios.post("users/login/", {
               ...userLogin
             });
           }}
