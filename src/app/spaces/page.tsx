@@ -183,7 +183,7 @@ export default function Spaces() {
           />
           <Grid container>
             {locations.map((location, index) => (
-              <Grid item xs={12} xl={6} key={index}>
+              <Grid item xs={12} key={index}>
                 <SpaceItemCard location={location} index={index} />
               </Grid>
             ))}
