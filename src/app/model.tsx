@@ -41,7 +41,7 @@ type Booking = {
 };
 
 type Space = {
-  id: string;
+  id?: string;
   name: string;
   description: string;
   imageUrl: string;

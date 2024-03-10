@@ -58,7 +58,9 @@ export default function Spaces() {
         if (spaceType !== "") {
           setLocations(
             locations.filter(
-              (location) => location.type === spaceType.toLocaleUpperCase()
+              (location) =>
+                location.type.toLocaleUpperCase() ===
+                spaceType.toLocaleUpperCase()
             )
           );
         } else {
@@ -114,7 +116,17 @@ export default function Spaces() {
             <Grid container>
               {locations.map((location, index) => (
                 <Grid item xs={12} key={index}>
-                  <SpaceItemCard location={location} index={index} />
+                  <SpaceItemCard
+                    location={location}
+                    index={index}
+                    onElementClick={() => {
+                      setCenter({
+                        lat: location.latitude,
+                        lng: location.longitude,
+                      });
+                      setZoom(17);
+                    }}
+                  />
                 </Grid>
               ))}
             </Grid>

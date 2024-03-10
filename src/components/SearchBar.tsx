@@ -6,7 +6,13 @@ import { Box, Icon, InputBase, Paper } from "@mui/material";
 import { Search } from "@mui/icons-material";
 import { Space } from "@/app/model";
 
-export default function FreeSolo({ locations }: { locations: Space[] }) {
+export default function FreeSolo({
+  locations,
+  onElementClick,
+}: {
+  locations: Space[];
+  onElementClick: (location: Space) => void;
+}) {
   return (
     <Paper
       elevation={3}
@@ -40,6 +46,12 @@ export default function FreeSolo({ locations }: { locations: Space[] }) {
               inputProps={params.inputProps}
             />
           )}
+          onChange={(_, value) => {
+            const location = locations.find((loc) => loc.name === value);
+            if (location) {
+              onElementClick(location);
+            }
+          }}
         />
       </Box>
     </Paper>

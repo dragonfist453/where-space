@@ -28,6 +28,9 @@ export default function SpaceTypeSelect({
           label="Space Type"
           onChange={handleChange}
         >
+          <MenuItem value="">
+            <em>None</em>
+          </MenuItem>
           {Object.keys(SpaceType).map((type) => {
             return (
               <MenuItem value={type} key={type}>

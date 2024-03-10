@@ -74,7 +74,13 @@ export default function Home() {
   return (
     <div>
       <ResponsiveAppBar />
-      <SearchBar locations={locations} />
+      <SearchBar
+        locations={locations}
+        onElementClick={(location: Space) => {
+          setCenter({ lat: location.latitude, lng: location.longitude });
+          setZoom(17);
+        }}
+      />
       <APIProvider apiKey={process.env.NEXT_PUBLIC_GMAPS_API_KEY || ""}>
         <div style={{ height: "94vh", width: "100vw" }}>
           <Map

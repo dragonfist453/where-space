@@ -11,18 +11,22 @@ import {
   CardActions,
   CardHeader,
   Chip,
+  Icon,
 } from "@mui/material";
 
 import PlaceIcon from "@mui/icons-material/Place";
 import { useState } from "react";
 import AddBookingModal from "@/app/spaces/add-booking-modal";
+import { MyLocation } from "@mui/icons-material";
 
 const SpaceItemCard = ({
   location,
   index,
+  onElementClick,
 }: {
   location: Space;
   index: number;
+  onElementClick: () => void;
 }) => {
   const [expanded, setExpanded] = useState(false);
 
@@ -65,8 +69,12 @@ const SpaceItemCard = ({
         <IconButton
           onClick={() => window.open(location.locationUrl, "_blank")}
           aria-label="View Location"
+          title="View Location on Google Maps"
         >
           <PlaceIcon />
+        </IconButton>
+        <IconButton onClick={onElementClick} title="Locate on Map">
+          <MyLocation />
         </IconButton>
         <Chip label={location.type} variant="outlined" />
         <Box sx={{ flexGrow: 1 }} />
