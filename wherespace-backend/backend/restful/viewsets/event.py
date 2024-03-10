@@ -111,3 +111,20 @@ class EventViewSet(viewsets.ModelViewSet):
         return Response(
             {"detail": "Successfully unattended event."}, status=status.HTTP_200_OK
         )
+
+    @action(
+        detail=True,
+        methods=["post"],
+    )
+    def objective(self, request, pk):
+        event = get_object_or_404(Event, id=pk)
+        try:
+            event.objective
+        except Event.objective.RelatedObjectDoesNotExist:
+            EventObjective.objects.create(event=event)
+
+        serializer = EventSerializer(event, data=request.data, partial=True)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+
+        return Response(serializer.data["objective"], status=status.HTTP_200_OK)
