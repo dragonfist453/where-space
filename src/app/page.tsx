@@ -30,7 +30,7 @@ export default function Home() {
   useEffect(() => {
     axios
       .get(
-        `spaces/?boundingbox=${bounds.west},${bounds.east},${bounds.south},${bounds.north}`
+        `spaces/?bounding_box=${bounds.west},${bounds.east},${bounds.south},${bounds.north}`
       )
       .then((response: AxiosResponse) => {
         const responseLocations = response.data;
@@ -117,6 +117,7 @@ export default function Home() {
                 <Badge badgeContent={location.usersCurrent} color="success">
                   <Place color="error" style={{ scale: 2 }} />
                 </Badge>
+                r
               </AdvancedMarker>
             ))}
           </Map>
