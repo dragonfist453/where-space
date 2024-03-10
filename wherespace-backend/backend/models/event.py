@@ -13,7 +13,7 @@ class EventObjective(UUIDMixin, models.Model):
     goal_text = models.TextField()
     todo_list = ArrayField(models.TextField(), default=list)
     event = models.OneToOneField(
-        "EventObjective", on_delete=models.CASCADE, related_name="objective"
+        "backend.Event", on_delete=models.CASCADE, related_name="objective"
     )
 
 

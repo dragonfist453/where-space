@@ -5,7 +5,7 @@ from .user import User
 
 
 class SpaceType(models.TextChoices):
-    QUITE = "QUITE", "Quite"
+    SILENT = "SILENT", "Silent"
     BUSY = "BUSY", "Busy"
     MEETING = "MEETING", "Meeting"
 
