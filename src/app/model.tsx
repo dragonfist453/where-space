@@ -31,7 +31,7 @@ type User = {
 type UserLogin = {
   username: string;
   password: string;
-}
+};
 
 type Booking = {
   id: string;

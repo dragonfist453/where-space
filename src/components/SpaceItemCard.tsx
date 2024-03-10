@@ -1,4 +1,4 @@
-import { Space } from "@/model/Space";
+import { Space } from "@/app/model";
 import {
   Grid,
   Button,
@@ -10,16 +10,17 @@ import {
   IconButton,
   CardActions,
   CardHeader,
+  Chip,
 } from "@mui/material";
 
 import PlaceIcon from "@mui/icons-material/Place";
-import {useState} from "react";
-import AddBookingModal from "@/app/list-events/add-booking-modal";
+import { useState } from "react";
+import AddBookingModal from "@/app/spaces/add-booking-modal";
 
 const SpaceItemCard = ({
-                         location,
-                         index,
-                       }: {
+  location,
+  index,
+}: {
   location: Space;
   index: number;
 }) => {
@@ -30,13 +31,16 @@ const SpaceItemCard = ({
       key={index}
       style={{
         width: "90%",
-        height: "250px",
         margin: "auto",
         marginBottom: "20px",
       }}
       elevation={3}
     >
-      <AddBookingModal open={expanded} space={location} onClose={() => setExpanded(false)}/>
+      <AddBookingModal
+        open={expanded}
+        space={location}
+        onClose={() => setExpanded(false)}
+      />
       <Box sx={{ display: "flex", flexDirection: "row" }}>
         <CardContent>
           <Typography variant="h5" color="text.primary">
@@ -64,8 +68,9 @@ const SpaceItemCard = ({
         >
           <PlaceIcon />
         </IconButton>
+        <Chip label={location.type} variant="outlined" />
         <Box sx={{ flexGrow: 1 }} />
-        <Button onClick={() => console.log("Booked!")} aria-label="Book Space">
+        <Button onClick={() => setExpanded(true)} aria-label="Book Space">
           Book
         </Button>
       </CardActions>
