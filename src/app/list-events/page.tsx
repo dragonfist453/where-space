@@ -201,7 +201,12 @@ export default function ListEvents() {
                               <div className="flex">
                                 <IconButton
                                   className="p-0 mr-1"
-                                  onClick={() => {}}
+                                  onClick={() => {
+                                    axios.post(`events/${event.id}/attend/`, {"user_id": me}).then((res) => {
+                                      console.log(res)
+                                      router.push(`/event?id=${event.id}`)
+                                    })
+                                  }}
                                 >
                                   <AddCircleOutlineIcon />
                                 </IconButton>
