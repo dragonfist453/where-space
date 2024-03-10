@@ -14,7 +14,7 @@ import {
 import SendIcon from "@mui/icons-material/Send";
 import moment, { Moment } from "moment";
 import {useEffect, useRef, useState} from "react";
-import { ChatMessage, User, Event as CurrentEvent } from "../model";
+import {ChatMessage, User, Event as CurrentEvent, Objective, Todo} from "../model";
 import ResponsiveAppBar from "@/components/AppBar";
 import axios from "axios";
 import useWebSocket, { ReadyState } from "react-use-websocket";
@@ -87,7 +87,7 @@ export default function EventPage() {
             />
           </Paper>
           <div className="w-full">
-            <TaskSection />
+            <TaskSection eventId={id!!}/>
             <Divider />
             <Paper className="font-bold text-3xl h-1/3 p-8" elevation={3}>
               What We Do
@@ -99,21 +99,50 @@ export default function EventPage() {
   );
 }
 
-function TaskSection() {
+function TaskSection({eventId} : {eventId: string}) {
+  const WS_URL = `ws://10.242.109.78:8000/ws/objective/${eventId}/?user_id=${me}`;
+
+  const {
+    sendJsonMessage,
+    lastJsonMessage,
+    sendMessage,
+    readyState,
+  }: {
+    sendJsonMessage: any;
+    lastJsonMessage: any;
+    sendMessage: any;
+    readyState: any;
+  } = useWebSocket(WS_URL, {
+    share: false,
+    shouldReconnect: () => true,
+    onMessage: (event: MessageEvent) => {
+      const obj: Objective = JSON.parse(event.data);
+      setObjective(obj);
+    },
+  });
+  const [objective, setObjective] = useState<Objective>();
+
+  const send = () => {
+    sendJsonMessage(objective);
+  };
+
   return (
     <Paper className="flex flex-col h-2/3 p-8 gap-4" elevation={3}>
       <div className="font-bold text-3xl ">Task List</div>
-      <TaskCard text="Review Problem Sheet" />
-      <TaskCard text="Watch Recording" />
+        {objective?.todos.map((todo, index) => {
+            return (
+             <TaskCard id={todo.id} content={todo.content} completed={todo.completed} />
+            );
+          })}
     </Paper>
   );
 }
 
-function TaskCard({ text }: { text: string }) {
+function TaskCard({ content, completed }: Todo) {
   return (
     <Card variant="outlined">
-      <Checkbox />
-      {text}
+      <Checkbox checked={completed} />
+      {content}
     </Card>
   );
 }
