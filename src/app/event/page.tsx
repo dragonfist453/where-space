@@ -4,6 +4,7 @@ import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import {
   Card,
   Checkbox,
+  Divider,
   IconButton,
   InputAdornment,
   OutlinedInput,
@@ -68,22 +69,29 @@ export default function EventPage() {
   return (
     <>
       <ResponsiveAppBar />
-      <main className="flex flex-col items-center justify-between">
+      <main className="flex min-h-screen flex-col items-center justify-between">
         <div className="grid grid-cols-4 w-full">
-          <div className="flex flex-col  w-full">
+          <div className="h-screen flex flex-col  w-full">
             <PeopleSection people={currentEvent.attendee} />
-            <div className="font-bold text-3xl h-1/2 p-8">Summary</div>
+            <Divider />
+            <Paper className="font-bold text-3xl h-1/2 p-8" elevation={3}>
+              Summary
+              <Divider style={{ paddingTop: "10px" }} />
+            </Paper>
           </div>
-          <Paper className="col-span-2 w-full px-12">
+          <Paper className="col-span-2 w-full px-12" elevation={3}>
             <ChatSection
               id={id!!}
               people={currentEvent.attendee}
               name={currentEvent.name}
             />
           </Paper>
-          <div className="w-full">
+          <div className="h-screen w-full">
             <TaskSection />
-            <div className="font-bold text-3xl h-1/3 p-8">What We Do</div>
+            <Divider />
+            <Paper className="font-bold text-3xl h-1/3 p-8" elevation={3}>
+              What We Do
+            </Paper>
           </div>
         </div>
       </main>
@@ -93,11 +101,11 @@ export default function EventPage() {
 
 function TaskSection() {
   return (
-    <div className="flex flex-col h-2/3 p-8 gap-4">
+    <Paper className="flex flex-col h-2/3 p-8 gap-4" elevation={3}>
       <div className="font-bold text-3xl ">Task List</div>
       <TaskCard text="Review Problem Sheet" />
       <TaskCard text="Watch Recording" />
-    </div>
+    </Paper>
   );
 }
 
@@ -112,8 +120,9 @@ function TaskCard({ text }: { text: string }) {
 
 function PeopleSection({ people }: { people: User[] }) {
   return (
-    <div className="h-1/2 p-8 flex flex-col gap-4">
+    <Paper className="h-1/2 p-8 flex flex-col gap-4" elevation={3}>
       <div className="font-bold text-3xl">People</div>
+      <Divider />
       {people.map((user, index) => {
         return (
           <React.Fragment key={index}>
@@ -124,7 +133,7 @@ function PeopleSection({ people }: { people: User[] }) {
           </React.Fragment>
         );
       })}
-    </div>
+    </Paper>
   );
 }
 
@@ -174,11 +183,7 @@ function ChatSection({
     setInputContent("");
   };
   return (
-    <div
-      className="flex flex-col justify-end py-8"
-      style={{ height: "92.5vh" }}
-    >
-      <div className="fixed top-4 mt-20 font-bold text-3xl">Room: {name}</div>
+    <Paper className="flex flex-col justify-end h-screen py-8" elevation={8}>
       <div className="flex flex-col gap-2 text-xl mb-2">
         {messageList.map((message) => {
           if (message.from === "Me") {
@@ -218,6 +223,6 @@ function ChatSection({
           </InputAdornment>
         }
       />
-    </div>
+    </Paper>
   );
 }
