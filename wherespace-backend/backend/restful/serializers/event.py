@@ -19,11 +19,19 @@ class TodoSerializer(serializers.ModelSerializer):
 
 class EventObjectiveSerializer(serializers.ModelSerializer):
     todos = TodoSerializer(many=True, required=False)
+    event = serializers.PrimaryKeyRelatedField(queryset=Event.objects.all())
 
     class Meta:
         model = EventObjective
-        fields = ["id", "goal_text", "todos"]
+        fields = ["id", "todos", "event"]
         read_only_fields = ["id"]
+
+    def create(self, validated_data):
+        todos = validated_data.pop("todos", [])
+        objective = EventObjective.objects.create(**validated_data)
+        for todo in todos:
+            Todo.objects.create(event_objective=objective, **todo)
+        return objective
 
     def update(self, instance, validated_data):
         print(validated_data)

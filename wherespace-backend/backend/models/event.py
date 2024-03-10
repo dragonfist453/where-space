@@ -17,7 +17,6 @@ class Todo(UUIDMixin, models.Model):
 
 
 class EventObjective(UUIDMixin, models.Model):
-    goal_text = models.TextField()
     event = models.OneToOneField(
         "backend.Event", on_delete=models.CASCADE, related_name="objective"
     )
