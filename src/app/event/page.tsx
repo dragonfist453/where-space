@@ -190,10 +190,10 @@ function ChatSection({
     >
       <div className="flex flex-col gap-2 text-xl mb-2">
         {messageList.map((message) => {
-          if (message.from === "Me") {
+          if (message.from === me) {
             return (
               <span className="flex w-full justify-start items-center">
-                Me: {message.content}
+                Me ({message.time.format("HH:MM:SS")}): {message.content}
                 <AccountCircleIcon />
               </span>
             );
@@ -205,8 +205,8 @@ function ChatSection({
               key={"Incoming " + message.content}
             >
               <AccountCircleIcon />
-              {people.find((one) => one.id === message.from)?.firstName}:{" "}
-              {message.content}
+              {people.find((one) => one.id === message.from)?.firstName} (
+              {message.time.format("HH:MM:SS")}): {message.content}
             </span>
           );
         })}
