@@ -59,7 +59,10 @@ class BookingViewSet(viewsets.ModelViewSet):
 
     def perform_create(self, serializer):
         # Assuming the 'host' is the authenticated user making the request
-        serializer.save(host=self.request.user)
+        if self.request.user.is_anonymous:
+            serializer.save()
+        else:
+            serializer.save(host=self.request.user)
 
     @action(
         detail=False,
