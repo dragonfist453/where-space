@@ -36,7 +36,15 @@ class BookingSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Booking
-        fields = ["id", "space", "start_time", "end_time", "host", "space_details"]
+        fields = [
+            "id",
+            "space",
+            "start_time",
+            "end_time",
+            "host",
+            "space_details",
+            "summary",
+        ]
         read_only_fields = ["id"]
 
     def get_space_details(self, obj):

@@ -38,6 +38,7 @@ class Event(UUIDMixin, models.Model):
         related_name="events",
         related_query_name="event",
     )
+    summary = models.TextField()
 
     @property
     def is_fully_booked(self):
