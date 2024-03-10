@@ -1,4 +1,4 @@
-'use client'
+"use client";
 
 import { useState, useEffect } from 'react';
 import {APIProvider, Map, Marker} from '@vis.gl/react-google-maps';
@@ -46,15 +46,5 @@ export default function Home() {
 
       </APIProvider>
     </div>
-  )
+  );
 }
-
-
-
-
-
-
-
-
-
-
