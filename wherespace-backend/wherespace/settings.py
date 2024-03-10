@@ -93,15 +93,28 @@ REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": [
         "rest_framework.authentication.SessionAuthentication"
     ],
+    "DEFAULT_FILTER_BACKENDS": ["django_filters.rest_framework.DjangoFilterBackend"],
 }
 
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
+#
+# DATABASES = {
+#     "default": {
+#         "ENGINE": "django.db.backends.sqlite3",
+#         "NAME": BASE_DIR / "db.sqlite3",
+#     }
+# }
+
 
 DATABASES = {
     "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
+        "ENGINE": "django.db.backends.postgresql",
+        "NAME": "postgres",  # Use your database name, default is 'postgres'
+        "USER": "postgres",  # Adjust as per your setup
+        "PASSWORD": "password",  # Replace with your password
+        "HOST": "localhost",  # Use your Docker container name if using Docker Networking
+        "PORT": "5432",  # Default PostgreSQL port
     }
 }
 
