@@ -44,8 +44,6 @@ class UserViewSet(viewsets.ModelViewSet):
                 {"detail": "Already logged in."}, status=status.HTTP_400_BAD_REQUEST
             )
 
-        print(request.data)
-
         username = request.data.get("username")
         password = request.data.get("password")
         user = authenticate(request, username=username, password=password)
