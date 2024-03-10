@@ -31,7 +31,7 @@ class Event(UUIDMixin, models.Model):
     @property
     def is_fully_booked(self):
         return (
-            self.attendees.count() >= self.max_attendees - 1
+            self.attendees.count() >= self.max_attendees
         )  # has to take account of the host
 
     def is_participant(self, user):

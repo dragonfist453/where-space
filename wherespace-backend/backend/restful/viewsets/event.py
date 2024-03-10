@@ -33,6 +33,11 @@ class EventViewSet(viewsets.ModelViewSet):
     serializer_class = EventSerializer
     # permission_classes = [permissions.IsAuthenticated]
 
+    def perform_create(self, serializer):
+        event_instance = serializer.save()
+        event_instance.attendees.add(self.request.user)
+        event_instance.save()
+
     @action(
         detail=False,
         methods=["get"],
