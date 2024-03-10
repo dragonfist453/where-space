@@ -1,9 +1,18 @@
 from channels.db import database_sync_to_async
+from django.contrib.postgres.fields import ArrayField
 from django.db import models
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 
 from .mixins import UUIDMixin
 from .space import Booking
 from .user import User
+
+
+class EventObjective(UUIDMixin, models.Model):
+    goal_text = models.TextField()
+    todo_list = ArrayField(models.TextField(), default=list)
+    event = models.OneToOneField("EventObjective", on_delete=models.CASCADE)
 
 
 class Event(UUIDMixin, models.Model):
@@ -40,3 +49,9 @@ class Event(UUIDMixin, models.Model):
     @database_sync_to_async
     def async_is_participant(self, user):
         return self.is_participant(user)
+
+
+@receiver(post_save, sender=Event)
+def create_user_privacy(sender, instance, created, **kwargs):
+    if created:
+        EventObjective.objects.create(goal_text="", todo_list=[], event=instance)
