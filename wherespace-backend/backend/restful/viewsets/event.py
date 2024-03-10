@@ -119,12 +119,14 @@ class EventViewSet(viewsets.ModelViewSet):
     def objective(self, request, pk):
         event = get_object_or_404(Event, id=pk)
         try:
-            event.objective
+            objective = event.objective
         except Event.objective.RelatedObjectDoesNotExist:
-            EventObjective.objects.create(event=event)
+            objective = EventObjective.objects.create(event=event)
 
-        serializer = EventSerializer(event, data=request.data, partial=True)
+        serializer = EventObjectiveSerializer(
+            objective, data=request.data, partial=True
+        )
         serializer.is_valid(raise_exception=True)
         serializer.save()
 
-        return Response(serializer.data["objective"], status=status.HTTP_200_OK)
+        return Response(serializer.data, status=status.HTTP_200_OK)

@@ -25,6 +25,32 @@ class EventObjectiveSerializer(serializers.ModelSerializer):
         fields = ["id", "goal_text", "todos"]
         read_only_fields = ["id"]
 
+    def update(self, instance, validated_data):
+        print(validated_data)
+
+        instance.goal_text = validated_data.get("goal_text", instance.goal_text)
+        update_todos = validated_data.get("todos", [])
+        instance.todos.exclude(
+            id__in=[id_val for todo in update_todos if (id_val := todo.get("id", None))]
+        ).delete()
+
+        for todo in update_todos:
+            if todo.get("id", None) is None:
+                Todo.objects.create(
+                    content=todo["content"],
+                    completed=todo.get("completed", False),
+                    event_objective=instance,
+                )
+            else:
+                todo_instance = Todo.objects.get(pk=todo["id"])
+                todo_instance.content = todo.get("content", todo_instance.content)
+                todo_instance.completed = todo.get("completed", todo_instance.completed)
+                todo_instance.save()
+
+        instance.save()
+
+        return instance
+
 
 class EventSerializer(serializers.ModelSerializer):
     booking = BookingSerializer(required=False, allow_null=True)
