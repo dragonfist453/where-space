@@ -9,7 +9,7 @@ from .user import User
 
 
 class Todo(UUIDMixin, models.Model):
-    text = models.TextField()
+    content = models.TextField()
     completed = models.BooleanField(default=False)
     event_objective = models.ForeignKey(
         "EventObjective", related_name="todos", on_delete=models.CASCADE

@@ -7,9 +7,19 @@ from .user import UserSerializer
 Event = apps.get_model("backend", "Event")
 EventObjective = apps.get_model("backend", "EventObjective")
 User = apps.get_model("backend", "User")
+Todo = apps.get_model("backend", "Todo")
+
+
+class TodoSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Todo
+        fields = ["id", "content", "completed", "event_objective"]
+        read_only_fields = ["id"]
 
 
 class EventObjectiveSerializer(serializers.ModelSerializer):
+    todos = TodoSerializer(many=True, required=False)
+
     class Meta:
         model = EventObjective
         fields = ["id", "goal_text", "todos"]
