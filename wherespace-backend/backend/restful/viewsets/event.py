@@ -5,9 +5,11 @@ from rest_framework import viewsets, status, permissions
 from rest_framework.decorators import action
 from rest_framework.response import Response
 
-from ..serializers.event import EventSerializer
+from ..serializers.event import EventSerializer, EventObjectiveSerializer
 
+EventObjective = apps.get_model("backend", "EventObjective")
 Event = apps.get_model("backend", "Event")
+User = apps.get_model("backend", "User")
 
 
 class EventFilter(django_filters.FilterSet):
@@ -26,6 +28,12 @@ class EventFilter(django_filters.FilterSet):
             booking__space__latitude__gt=south,
             booking__space__latitude__lt=north,
         )
+
+
+class EventObjectiveViewSet(viewsets.ModelViewSet):
+    queryset = Event.objects.all()
+    serializer_class = EventObjectiveSerializer
+    # permission_classes = [permissions.IsAuthenticated]
 
 
 class EventViewSet(viewsets.ModelViewSet):
@@ -61,11 +69,16 @@ class EventViewSet(viewsets.ModelViewSet):
     @action(
         detail=True,
         methods=["post"],
-        permission_classes=[permissions.IsAuthenticated],
+        # TODO: remove when havel login
+        # permission_classes=[permissions.IsAuthenticated],
     )
     def attend(self, request, pk):
         event = get_object_or_404(Event, pk=pk)
         user = request.user
+
+        # TODO: remove when havel login
+        if user.is_anonymous:
+            user = User.objects.get(pk=request.data["user"])
 
         if event.is_fully_booked:
             return Response(
@@ -88,21 +101,20 @@ class EventViewSet(viewsets.ModelViewSet):
     @action(
         detail=True,
         methods=["post"],
-        permission_classes=[permissions.IsAuthenticated],
+        # TODO: remove when havel login
+        # permission_classes=[permissions.IsAuthenticated],
     )
     def unattend(self, request, pk):
         event = get_object_or_404(Event, id=pk)
         user = request.user
 
+        # TODO: remove when havel login
+        if user.is_anonymous:
+            user = get_object_or_404(User, id=request.data["user"])
+
         if not event.attendees.filter(id=user.id).exists():
             return Response(
                 {"detail": "Not attending event."}, status=status.HTTP_400_BAD_REQUEST
-            )
-
-        if event.host == user:
-            return Response(
-                {"detail": "Host cannot unattend event."},
-                status=status.HTTP_400_BAD_REQUEST,
             )
 
         event.attendees.remove(user)
