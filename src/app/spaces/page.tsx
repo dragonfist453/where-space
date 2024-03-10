@@ -156,6 +156,10 @@ export default function Spaces() {
         );
         console.log(locations);
         setLocations(locations);
+      })
+      .catch((error) => {
+        console.error(error);
+        setLocations(exampleLocations);
       });
   }, [bounds]);
   return (

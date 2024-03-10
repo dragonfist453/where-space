@@ -38,7 +38,7 @@ const SpaceItemCard = ({
             {location.name}
           </Typography>
           <Typography variant="subtitle1" color="text.secondary">
-            {location.rating} stars
+            {location.rating} &#11088;
           </Typography>
           <Typography variant="subtitle1" color="text.secondary">
             {location.description}
