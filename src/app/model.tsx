@@ -19,6 +19,18 @@ type ChatMessage = {
   content: string;
 };
 
+type Todo = {
+  id: string;
+  content: string;
+  completed: boolean;
+}
+
+type Objective = {
+  id: string;
+  todos: Todo[];
+  goal_text: string;
+}
+
 type User = {
   id: string;
   email: string;
@@ -59,4 +71,4 @@ export enum SpaceType {
   Meeting = "Meeting",
 }
 
-export type { Event, Booking, Space, User, ChatMessage, UserLogin };
+export type { Event, Booking, Space, User, ChatMessage, UserLogin, Objective, Todo };
