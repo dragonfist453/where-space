@@ -5,8 +5,9 @@ import { APIProvider, AdvancedMarker, Map } from "@vis.gl/react-google-maps";
 import ResponsiveAppBar from "@/components/AppBar";
 import SearchBar from "@/components/SearchBar";
 import { Space, SpaceType } from "./model";
-import axios, { AxiosResponse } from "axios";
+import axios from "@/app/utils/axios-instance";
 import { exampleLocations } from "@/example-data/exampleLocations";
+import { AxiosResponse } from "axios";
 
 export default function Home() {
   const [locations, setLocations] = useState<Space[]>([]);
@@ -20,10 +21,9 @@ export default function Home() {
   });
 
   useEffect(() => {
-    const hostname = process.env.NEXT_PUBLIC_API_HOSTNAME;
     axios
       .get(
-        `${hostname}spaces/?boundingbox=${bounds.west},${bounds.east},${bounds.south},${bounds.north}`
+        `spaces/?boundingbox=${bounds.west},${bounds.east},${bounds.south},${bounds.north}`
       )
       .then((response: AxiosResponse) => {
         const responseLocations = response.data;

@@ -23,10 +23,9 @@ export default function Spaces() {
   });
 
   useEffect(() => {
-    const hostname = process.env.NEXT_PUBLIC_API_HOSTNAME;
     axios
       .get(
-        `${hostname}spaces/?boundingbox=${bounds.west},${bounds.east},${bounds.south},${bounds.north}`
+        `spaces/?boundingbox=${bounds.west},${bounds.east},${bounds.south},${bounds.north}`
       )
       .then((response: AxiosResponse) => {
         const responseLocations = response.data;
