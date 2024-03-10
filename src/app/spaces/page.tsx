@@ -6,7 +6,8 @@ import { Divider, Grid } from "@mui/material";
 import { APIProvider, AdvancedMarker, Map } from "@vis.gl/react-google-maps";
 import SpaceTypeSelect from "./SpaceTypeSelect";
 import { useEffect, useState } from "react";
-import axios, { AxiosResponse } from "axios";
+import axios from "@/app/utils/axios-instance";
+import { AxiosResponse } from "axios";
 import { exampleLocations } from "@/example-data/exampleLocations";
 
 export default function Spaces() {

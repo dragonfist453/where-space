@@ -4,7 +4,7 @@ import {AdapterMoment} from "@mui/x-date-pickers/AdapterMoment";
 import moment from "moment";
 import {useState} from "react";
 import {Booking as NewBooking, Space} from "../model";
-import axios from "axios";
+import axios from "@/app/utils/axios-instance";
 
 export default function AddBookingModal({
                                           open,
