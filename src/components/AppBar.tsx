@@ -227,9 +227,14 @@ function ResponsiveAppBar() {
                 </MenuItem>
               ))}
               {
-                (loggedIn) &&
-                <MenuItem key="Logout" onClick={handleLogout}>
+                (loggedIn) ?
+                <MenuItem key="Logout" onClick={() => {handleLogout(); handleCloseUserMenu();}}>
                   <Typography textAlign="center">Logout</Typography>
+                </MenuItem> :
+                <MenuItem key="Login" onClick={handleCloseUserMenu}>
+                  <Link href={"/login"}>
+                    <Typography textAlign="center">Login</Typography>
+                  </Link>
                 </MenuItem>
               }
             </Menu>
