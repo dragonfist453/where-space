@@ -38,7 +38,10 @@ export default function ListEvents() {
             attendees.push({
               id: attendee.id,
               username: attendee.username,
-              email: attendee.user,
+              email: attendee.email,
+              firstName: attendee.first_name,
+              lastName: attendee.last_name,
+              interests: attendee.attendee,
             });
           });
           resEventList.push({
