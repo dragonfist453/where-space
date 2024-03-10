@@ -70,11 +70,11 @@ export default function EventPage() {
   return (
     <>
       <ResponsiveAppBar />
-      <main className="flex flex-col items-center justify-between">
+      <main className="flex flex-col items-center justify-between pt-5 px-5">
         <div className="grid grid-cols-4 w-full">
           <div className="flex flex-col w-full">
             <PeopleSection people={currentEvent.attendee} />
-            <Divider />
+            <div className={"my-3"} />
             <Paper className=" h-1/2 p-8" elevation={3}>
               <div className={"font-bold text-3xl"}>
                 Summary
@@ -85,19 +85,19 @@ export default function EventPage() {
               </div>
             </Paper>
           </div>
-          <Paper className="col-span-2 w-full px-12" elevation={3}>
+          <div className="col-span-2 w-full px-12">
             <ChatSection
               id={id!!}
               people={currentEvent.attendee}
               name={currentEvent.name}
             />
-          </Paper>
+          </div >
           <div className="w-full">
             <TaskSection eventId={id!!}/>
-            <Divider />
-            <Paper className="font-bold text-3xl h-1/3 p-8" elevation={3}>
-              What We Do
-            </Paper>
+            {/*<Divider />*/}
+            {/*<Paper className="font-bold text-3xl h-1/3 p-8" elevation={3}>*/}
+            {/*  What We Do*/}
+            {/*</Paper>*/}
           </div>
         </div>
       </main>
@@ -170,8 +170,12 @@ function TaskSection({eventId} : {eventId: string}) {
   }
 
   return (
-    <Paper className="flex flex-col h-2/3 p-8 gap-4" elevation={3}>
-      <div className="font-bold text-3xl ">Task List</div>
+    <Paper className="flex flex-col h-full p-8 gap-4" elevation={3} style={{
+      height: "92.5vh",
+      // overflowY: "scroll"
+    }}>
+      <div className="font-bold text-3xl">Task List</div>
+      <div className={"overflow-y-scroll"}>
         {objective?.todos?.map((todo, index) => {
             return (
              <TaskCard id={todo.id} content={todo.content} completed={todo.completed} key={todo.id} onDelete={() => {
@@ -179,6 +183,7 @@ function TaskSection({eventId} : {eventId: string}) {
              }}/>
             );
           })}
+      </div>
       <Divider />
       <div className={"flex ma"}>
         <TextField
@@ -204,7 +209,7 @@ function TaskSection({eventId} : {eventId: string}) {
 
 function TaskCard({ content, completed, onDelete }: Todo & {onDelete: () => void}) {
   return (
-    <Card variant="outlined">
+    <Card variant="outlined" className={"my-3"}>
       <Checkbox checked={completed} />
       {content}
       <IconButton aria-label="delete" onClick={onDelete}>
@@ -318,11 +323,11 @@ function ChatSection({
 
   return (
     <Paper
-      className="flex flex-col justify-end py-8 px-4"
-      elevation={8}
+      className="flex flex-col justify-end pb-8 pt-4 px-4"
+      elevation={3}
       style={{ height: "92.5vh" }}
     >
-      <div className="flex flex-col gap-2 text-xl mb-2 overflow-y-scroll" ref={scrollRef}>
+      <div className="flex flex-col gap-2 text-xl mb-2 overflow-y-scroll overflow-x-hidden pb-3" ref={scrollRef}>
         {messageList.map((message) => {
           if (message.from === me) {
             return (
