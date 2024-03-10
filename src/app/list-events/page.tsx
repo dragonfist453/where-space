@@ -14,7 +14,7 @@ import { useEffect, useState } from "react";
 import AddEventModal from "./add-event-modal";
 import { Event as CreatedEvent, User } from "../model";
 import moment from "moment";
-import axios from "axios";
+import axios from "@/app/utils/axios-instance";
 import GroupsIcon from "@mui/icons-material/Groups";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";

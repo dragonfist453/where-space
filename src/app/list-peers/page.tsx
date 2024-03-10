@@ -6,7 +6,7 @@ import { use, useEffect, useState } from "react";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import { User } from "../model";
-import axios from "axios";
+import axios from "@/app/utils/axios-instance";
 import ChatIcon from "@mui/icons-material/Chat";
 import ResponsiveAppBar from "@/components/AppBar";
 
